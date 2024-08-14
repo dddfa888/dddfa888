@@ -1,0 +1,6 @@
+返回数据new==AA=
+{"code":90419,"message":"When the withdrawal service is busy now, please choose another receiving method or contact customer service.","success":false}
+返回数据new==AA=
+{"code":0,"message":"Succeed","data":{"thirdOrderNumber":"DF165425210166171","thirdUserId":"629a1e203381f@611","orderNumber":"TT20220603786439000013"},"success":true}
+返回数据new==AA=
+{"code":90410,"message":"Duplicate Order ID","success":false}

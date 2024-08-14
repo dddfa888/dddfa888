@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>通道编辑</title>
+    {include file="public/header"}
+</head>
+<body style="padding: 0px 10px;padding-bottom: 45px;" enctype="multipart/form-data">
+
+    <form class="layui-form" action="" method="post" id="groupForm">
+        <input type="hidden" name="id" value="{$one.id}">
+        <div class="layui-tab-content">
+
+            <div class="layui-form-item">
+                <label class="layui-form-label">通道名称</label>
+                <div class="layui-input-block">
+                    <input type="text" value="{$one.channel_name}" name="channel_name" placeholder="" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label">通道标识</label>
+                <div class="layui-input-block">
+                    <input type="text" value="{$one.mark}" name="mark" placeholder="" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label">通道开关</label>
+                <div class="layui-input-block">
+                    <input type="checkbox" value="1" {$one.switch?"checked":""} name="switch" lay-skin="switch" lay-text="开|关">
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label">提现最低额</label>
+                <div class="layui-input-inline">
+                    <input type="text" value="{$one.withdraw_lowest}" name="withdraw_lowest" placeholder="" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label">提现最高额</label>
+                <div class="layui-input-inline">
+                    <input type="text" value="{$one.withdraw_highest}" name="withdraw_highest" placeholder="" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label">充值最低额</label>
+                <div class="layui-input-inline">
+                    <input type="text" value="{$one.recharge_lowest}" name="recharge_lowest" placeholder="" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label">充值最高额</label>
+                <div class="layui-input-inline">
+                    <input type="text" value="{$one.recharge_highest}" name="recharge_highest" placeholder="" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+
+
+            <div class="layui-form-item">
+                <div class="layui-input-block">
+                    <button class="layui-btn" lay-submit lay-filter="formDemo">提交</button>
+                </div>
+            </div>
+        </div>
+        
+    </form>
+
+
+    
+
+<!-- 百度编辑器配置文件 -->
+
+{include file="public/foot"}
+
+<script>
+//监听提交
+layui.use(['form','upload','laydate'], function(){
+    var form = layui.form;
+    var upload = layui.upload;
+    var laydate = layui.laydate;
+    //监听提交
+    form.on('submit(formDemo)', function(data){
+        $.ajax({
+            url:"{:url('Channel/edit')}",
+            type:"post",
+            data:$('#groupForm').serialize(),
+            success:function(res){
+                  if(res.status){
+                      layer.alert("操作成功", {icon: 6},function () {
+                          parent.location.reload();
+                          var index = parent.layer.getFrameIndex(window.name);
+                          parent.layer.close(index);
+                      });
+                  }else{
+                      layer.msg(res.msg ? res.msg : "操作失败!", {icon: 5},function () {
+                          var index = parent.layer.getFrameIndex(window.name);
+                          parent.layer.close(index);
+                      });
+                      return false;
+                  }
+              }
+        });
+        return false;
+    })
+
+    //日期范围选择
+    laydate.render({ 
+        elem: '#end_time',
+        type: 'date' 
+    });
+
+
+
+
+});
+//导航标题
+$(function(){
+    $(window.parent.document).find('#right_title').text($('title').text());
+});
+
+
+</script>
+</body>
+</html>

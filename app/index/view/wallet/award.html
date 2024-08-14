@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{$Think.lang.sy_profit}</title>
+    {include file="public/header"}
+    {include file="public/kefu"}
+    <style type="text/css">
+        
+    </style>
+</head>
+<body>
+    <div class="header">
+        <span>{$Think.lang.my_wallet}</span>
+    </div>
+    <div class="back">
+        <a href="javascript:history.go(-1);"><i class="layui-icon">&#xe603;</i></a>
+    </div>
+    <div style="clear: both;"></div>
+
+    <div class="profit">
+        <p class="p1">{$Think.lang.sy_balance}({$Think.lang.currency})</p>
+        <p class="p2">{$Think.lang.currency} {$yue}</p>
+        <p class="p3">
+            <span class="lf">{$Think.lang.sy_total}:{$shouyi}</span>
+            <span class="lr">{$Think.lang.sy_withdraw}:{$yiti}</span>
+        </p>
+    </div>
+    <div class="profitbox" style="padding-bottom: 6rem;">
+        <ul>
+            {volist name="list" id="v"}
+            <li>
+                <p class="p1">{$v.desc}<span>{if $v.adds eq 0.00} {$v.reduce|two_number=###} {else/} +{$v.adds|two_number=###} {/if}</span></p>
+                <p class="p2">{$Think.lang.sy_change} <span>{$v.addtime|date='Y-m-d'}</span></p>
+            </li>
+            {/volist}
+        </ul>
+    </div>
+
+
+    {include file="public/foot"}
+
+<script type="text/javascript">
+    layui.use(['layer','form'], function(){
+        var layer = layui.layer;
+        var form = layui.form;
+    });
+    //登录操作
+    $("#sendbtn").click(function(){
+        var account = $("#username").val();
+        var password = $("#password").val();
+        $.ajax({
+            type:'post',
+            url:'{:url("index/Login/index")}',
+            data:{account:account,password:password},
+            dataType:'json',
+            success:function(res){
+                if (!res.status) {
+                    setTimeout(function(){
+                        location.href = res.url;
+                    },1000);
+                    layer.msg(res.msg);
+                }else{
+                    layer.msg(res.msg, {icon: 5});
+                    return false;
+                }
+            }
+        });
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>充值审核</title>
+	{include file="public/header"}
+</head>
+<body style="padding: 10px 10px 80px 10px;">
+<form class="layui-form" action="" method="post">
+	
+	<div class="">
+		<form class="layui-form" action="" method="get" autocomplete="off">
+			<div class="layui-form-item">
+				<div class="layui-inline">
+					<div class="layui-input-inline">
+						<input type="text" name="username" autocomplete="off" placeholder="用户查询" class="layui-input"
+						       value="{$username}">
+					</div>
+					<div class="layui-input-inline">
+						<input type="text" name="order" autocomplete="off" placeholder="订单查询" class="layui-input" value="{$order}">
+					</div>
+					<div class="layui-input-inline">
+						<button ype="submit" class="layui-btn">搜索</button>
+					</div>
+				</div>
+			</div>
+		</form>
+		
+		<table class="layui-table" lay-size="sm">
+			<thead>
+			<tr pid="0">
+				<th style="text-align: center;">序号</th>
+				<th>充值金额</th>
+				<th>充值用户</th>
+				<th>充值时间</th>
+				<!--<th>通道类型</th>-->
+				<th>转账银行</th>
+				<th>转账人姓名</th>
+				<th>转账凭证</th>
+				<th>充值前金额</th>
+				<th>充值后金额</th>
+				<th>充值订单号</th>
+				<th>充值状态</th>
+<!--				<th>操作</th>-->
+			</tr>
+			</thead>
+			<tbody>
+			{volist name="list" id="vo"}
+			<tr>
+				<td style="text-align: center;">{$vo.id}</td>
+				<td>{$vo.money}</td>
+				<td>{$vo.username}</td>
+				<td>{$vo.addtime|date='Y-m-d H:i:s'}</td>
+				<td>{$vo.bank_info}</td>
+				<td>{$vo.bank_username}</td>
+				<td><img class="pay_voucher" style="width: 60px;height: 60px" src="{$vo.pay_voucher}" alt=""></td>
+				<!--<td>
+						{switch vo.type}
+								{case 1}银行卡{/case}
+								{case 2}支付宝{/case}
+								{case 3}微信{/case}
+						{/switch}
+				</td>-->
+				<td>{$vo.money_front}</td>
+				<td>{$vo.money_after}</td>
+				<td>{$vo.order_num}</td>
+				<td>
+					{switch vo.status}
+					{case 0} <span style="color: #FFB800">未到账</span> {/case}
+					{case 1} <span style="color: #009688">已到账</span> {/case}
+					{/switch}
+				</td>
+<!--				<td>-->
+<!--					<a href="javascript:;" class="layui-btn layui-btn-sm"-->
+<!--					   onclick="admin_edit('充值审核','{:url('Recharge/operate',['id'=>$vo['id']])}',500,300)">审核</a>-->
+<!--				</td>-->
+			</tr>
+			{/volist}
+			
+			</tbody>
+		</table>
+		<div style="text-align: right;">{$page|raw}</div>
+	
+	</div>
+</form>
+
+
+{include file="public/foot"}
+<script>
+	//删除提示
+	layui.use(['layer', 'form'], function () {
+		var layer = layui.layer;
+		var form = layui.form;
+		$('.pay_voucher').click(function () {
+			layer.open({
+				type: 1,
+				shade: false,
+				title: false, //不显示标题
+				maxWidth: 500,
+				content: `<img class="pay_voucher" style="max-width: 500px;max-height: 500px" src="${$(this).attr('src')}" alt="">`,
+			});
+		})
+	});
+	
+	/*添加*/
+	function admin_add(title, url, w, h) {
+		x_admin_show(title, url, w, h);
+	}
+	
+	/*编辑*/
+	function admin_edit(title, url, w, h) {
+		x_admin_show(title, url, w, h);
+	}
+	
+	/*删除*/
+	function admin_del(obj, id) {
+		layer.confirm('确认要删除吗？', function (index) {
+			$.ajax({
+				url: "{:url('User/del')}",
+				type: 'post',
+				data: 'id=' + id,
+				success: function (res) {
+					if (res.status) {
+						$(obj).parents("tr").remove();
+						layer.msg('已删除!', {icon: 1, time: 1000});
+					} else {
+						layer.msg(res.msg ? res.msg : "操作失败!", {icon: 5}, function () {
+							var index = parent.layer.getFrameIndex(window.name);
+							parent.layer.close(index);
+						});
+						return false;
+					}
+				}
+			});
+		});
+	}
+	
+	//页面导航标题内容
+	$(function () {
+		$(window.parent.document).find('#right_title').text($('title').text());
+	})
+
+</script>
+</body>
+</html>

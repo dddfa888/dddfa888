@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>理财系统</title>
+    {include file="public/header"}
+</head>
+<body class="layui-layout-body">
+<div class="layui-layout layui-layout-admin">
+    <div class="layui-header">
+        <div class="layui-logo"><a href="" target="_blank"><span class="layui-hide-xs">企业</span>客户管理系统</a></div>
+        <!-- 头部区域（可配合layui已有的水平导航） -->
+        <ul class="layui-nav layui-layout-right">
+           
+            <li class="layui-nav-item">
+                <a href="{:url('index/login/index')}" target="_blank">前端</a>
+            </li>
+            <li class="layui-nav-item layui-hide-xs">
+                <a href="javascript:;">
+                    <i class="layui-icon" style="font-size: 1.2rem;">&#xe612;</i>
+                {$user_info.account}
+                </a>
+            </li>
+            <li class="layui-nav-item">
+                <a href="javascript:;">
+                    <i class="layui-icon" style="font-size: 1.2rem;">&#xe620;</i>
+                    设置
+                </a>
+                <dl class="layui-nav-child">
+                    <dd><a href="{:url('config/index')}" target="_content">系统设置</a></dd>
+                    <dd><a href="{:url('manager/setpass')}" target="_content">密码修改</a></dd>
+                </dl>
+            </li>
+            <li class="layui-nav-item"><a href="{:url('login/loginout')}">退出</a></li>
+        </ul>
+    </div>
+
+    <div class="layui-side layui-bg-black">
+        <div class="layui-side-scroll">
+            <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
+            <ul class="layui-nav layui-nav-tree" lay-shrink="all"  lay-filter="nav" id="nav">
+                {volist name="navmenus" id="nm"}
+                    <li class="layui-nav-item">
+                        <a class="" href="{if condition="$nm['id'] eq 1"}{:url('index/main')}{else/}{:url($nm['menu_name'])}{/if} " target="_content"><i class="layui-icon {$nm['icon']}"></i>{$nm.title}</a>
+                        <dl class="layui-nav-child">
+                        {volist name="nm[$nm['id']]" id="sub"}
+                            
+                            <dd><a href="{:url($sub['menu_name'])}" target="_content"><i class="layui-icon {$sub['icon']}"></i>{$sub.title}</a></dd>
+                        {/volist}
+                        </dl>
+                    </li>
+                {/volist}
+            </ul>
+        </div>
+    
+
+    </div>
+
+    <div class="layui-body" id="layui-body" style="overflow: hidden;">
+        <!-- 内容主体区域 -->
+        <div class="title ly-right-title"><span class="actived"><i class="layui-icon">&#xe68e;</i> <span id="right_title">基本信息</span></span></div>
+        <iframe id="_content" name="_content" src="{:url('user/index')}" scrolling="yes" frameborder="no" width="100%" height="100%"></iframe>
+    </div>
+
+    <div class="layui-footer">
+        <!-- 底部固定区域 -->
+        © 科技兴邦
+    </div>
+</div>
+{include file="public/foot"}
+
+<script>
+    layui.use('element',function () {
+        var element = layui.element;
+    })
+</script>
+
+</body>
+</html>

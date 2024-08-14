@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>编辑支出</title>
+    {include file="public/header"}
+</head>
+<body style="padding: 0px 10px;padding-bottom: 45px;" enctype="multipart/form-data">
+    <form class="layui-form" action="" method="post" id="sendForm">
+        <input type="hidden" name="id" value="{$one.id}">
+        <div class="layui-tab-content">
+            <div class="layui-form-item">
+                <label class="layui-form-label">支出类型</label>
+                <div class="layui-input-inline">
+                    <select name="type" lay-verify="required" lay-filter="showbtn">
+                        <option {if $one.type eq 1} selected {/if} value="1">一次性</option>
+                        <option {if $one.type eq 2} selected {/if} value="2">时效性</option>
+                    </select>
+                </div>
+            </div>
+            <div class="layui-form-item" id="showdiv" style="display: none;">
+                <label class="layui-form-label">截止日期</label>
+                <div class="layui-input-inline">
+                    <input name="endtime" type="text" value="{$one.endtime}" class="layui-input" id="endtime" placeholder="请输入服务项目截止时间">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">支出项目</label>
+                <div class="layui-input-block">
+                    <input type="text" name="proname" value="{$one.proname}" required lay-verify="required" placeholder="请输入支出项目" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label">金额</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="money" value="{$one.money}" placeholder="请输入支出金额" autocomplete="off" class="layui-input">
+                </div>
+                <div class="layui-form-mid layui-word-aux">元</div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">添加日期</label>
+                <div class="layui-input-inline">
+                    <input name="addtime" type="text" class="layui-input" id="addtime" value="{$one.addtime|date='Y-m-d'}">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">描述</label>
+                <div class="layui-input-block">
+                    <textarea name="describe" placeholder="请输入内容" class="layui-textarea">{$one.describe}</textarea>
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <div class="layui-input-block">
+                    <button class="layui-btn" lay-submit lay-filter="send">立即提交</button>
+                </div>
+            </div>
+        </div>    
+    </form>
+
+{include file="public/foot"}
+<script>
+//监听提交
+layui.use(['form','layer','laydate'], function(){
+    var form = layui.form,layer = layui.layer,laydate = layui.laydate;
+    //监听开关
+    form.on('select(showbtn)',function(data){
+        if(data.value == 1) {
+            $('#showdiv').hide();
+        } else {
+            $('#showdiv').show();
+        }
+    });
+    //监听提交
+    form.on('submit(send)', function(data){
+        $.ajax({
+            url:"{:url('Expenditure/edit')}",
+            type:"post",
+            data:$('#sendForm').serialize(),
+            success:function(res){
+                  if(res.status){
+                      layer.alert("操作成功", {icon: 6},function () {
+                          parent.location.reload();
+                          var index = parent.layer.getFrameIndex(window.name);
+                          parent.layer.close(index);
+                      });
+                  }else{
+                      layer.msg(res.msg ? res.msg : "操作失败!", {icon: 5},function () {
+                          var index = parent.layer.getFrameIndex(window.name);
+                          parent.layer.close(index);
+                      });
+                      return false;
+                  }
+              }
+        });
+        return false;
+    })
+
+    //日期范围选择
+    laydate.render({ 
+        elem: '#addtime',
+        type: 'date' 
+    });
+
+    laydate.render({ 
+        elem: '#endtime',
+        type: 'date' 
+    });
+    
+});
+//导航标题
+$(function(){
+    $(window.parent.document).find('#right_title').text($('title').text());
+});
+
+
+</script>
+</body>
+</html>

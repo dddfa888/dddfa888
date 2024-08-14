@@ -1,0 +1,96 @@
+<script type="text/javascript">
+	document.write(`<div id="Service" style="position:fixed;right:0;top:50%;display:flex;align-items:center;z-index:999;">
+
+        <img id="kefu" data-link="{$customer}" style="width:55px;height:55px" src="/public/static/index/img/customer.png" alt="..." />
+    </div>`)
+      $('#Service').click(function (){
+        $('#Service ul').css({
+            'width':'95px'
+        })
+    })
+
+  $('#kefu').click(function(){
+    var kefu = $(this).attr('data-link')
+    location.href='https://wa.me/'+kefu;
+  });
+    // 拖动
+	var phoneSys = ""
+
+	var u = navigator.userAgent,
+
+		app = navigator.appVersion;
+
+	console.log(u);
+
+	var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Linux') > -1; //g
+
+	var isIOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
+
+	if(isAndroid) {
+
+		console.log(111);
+
+		//这个是安卓操作系统
+
+		phoneSys = "android";
+
+	}
+
+	if(isIOS) {
+
+		phoneSys = "IOS";
+
+	}
+	
+    $('#Service a').click(function (){
+      var href =  $(this).attr('hr')
+         if( phoneSys == "android"){
+             window.android.back(href)
+         }else {
+             location.href = href
+         }
+    })
+    var obj = document.getElementById('Service');
+    var drag = false;
+    var screenHeight = document.documentElement.clientHeight;
+    var screenWidth = document.documentElement.clientWidth;
+    var pageX = screenWidth;
+    obj.addEventListener('touchstart',(ev)=>{
+      drag = true;
+      if (obj.setCapture) {
+        obj.setCapture();
+      }
+      $('#Service').removeClass('move')
+    });
+    obj.addEventListener('touchmove',(ev)=>{
+      $('#Service').removeClass('move')
+      ev.preventDefault();
+      ev = ev.touches?ev.touches[0]:event;
+      if(drag){
+        if(ev.pageY<obj.clientHeight/2){
+          obj.style.bottom = screenHeight-obj.clientHeight+'px';
+        }else if(ev.pageY>screenHeight-5-obj.clientHeight/2){
+          obj.style.bottom = '5px';
+        }else{
+          obj.style.bottom = screenHeight-ev.pageY-obj.clientHeight/2+'px';
+        }
+        if(ev.pageX<obj.clientWidth/2){
+          obj.style.right = screenWidth-obj.clientWidth+'px';
+        }else if(ev.pageX>screenWidth-obj.clientWidth/2){
+          obj.style.right = '0px';
+        }else{
+          obj.style.right = screenWidth-ev.pageX-obj.clientWidth/2+'px';
+        }
+        pageX = ev.pageX
+      }
+    });
+    obj.addEventListener('touchend',(ev)=>{
+      drag = false;
+      $('#Service').addClass('move')
+      if(pageX>screenWidth/2){
+        obj.style.right = 0;
+      }else{
+        obj.style.right = screenWidth-obj.clientWidth+'px';
+      }
+    });
+</script>

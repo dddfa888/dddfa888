@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>{$Think.lang.investment}</title>
+  {include file="public/header"}
+  {include file="public/kefu"}
+  <link rel="stylesheet" type="text/css" href="/public/static/custom.css">
+  <style>
+    .header{height: 40px;}
+    .product-item{
+      width: 45%;
+       height: 120px;
+      border-radius: 6px;
+      margin-top: 10px;
+      margin-left: 10px;
+      border: 1px solid #ccc;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+
+<!-- 产品内容 -->
+<div class="sharebox" style="text-align: center;">
+  <div class="header bg-success text-white font-md">{$Think.lang.investment}</div>
+  <div class="position-relative">
+    <div class="bg-success " style="height: 120px;border-radius: 0 0 40%  40%"></div>
+    <div class="position-absolute w-100 top-0 " >
+      <div class="px-1 pt-1">
+        <div class="bg-white rounded shadow py-2">
+          <span class="font-md">{:lang('total_investment_amount')}</span>
+          <p class="font-big mt-1 " style="font-size: 36px">{:lang('tx_cny')} {$investmentAmount} </p>
+         
+          <div class="d-flex mt-2 font">
+            <div class="d-flex flex-1 flex-column a-center j-center">
+              <span>{:lang('yesterdays_earnings')}</span>
+              <p>{$yesterdaysEarnings}</p>
+            </div>
+            <div class="d-flex flex-1 flex-column a-center j-center">
+              <span>{:lang('cumulative_income')}</span>
+              <p>{$profitAll}</p>
+            </div>
+            <div class="d-flex flex-1 flex-column a-center j-center">
+              <span>{:lang('account_balance')}</span>
+              <p>{$balance}</p>
+            </div>
+         
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="px-1 " style="margin-top: 78px">
+    <div class="bg-white  shadow  rounded pb-1 ">
+      <h2 class="title rounded font text-left pl-1 bg-success text-white py-1" style="border-radius:4px 4px 0 0 ">{:lang('select_investment_products')}</h2>
+      <div class=" d-flex flex-wrap">
+        {foreach($list as $key =>$val)}
+        <a data-pid="{$val.id}" class="d-flex flex-column product-item {$key == 0?'border-success':''}" href="javascript:">
+          <span>{$val.title}</span>
+          <span>{$val.yxzq}{:lang('day')}</span>
+          <span>{:lang('daily_increase')}  {:config('app.currency')}{:intval($val.day_shouyi)}</span>
+          <span>{$Think.lang.sy_buy_fee} {:config('app.currency')}{$val.price}</span>
+        </a>
+        {/foreach}
+      </div>
+    </div>
+  </div>
+  
+<!--  <div class="px-1 " style="margin-top: 10px">-->
+<!--    <div class="bg-white  shadow  rounded  ">-->
+<!--      <div class="mt-1 d-flex  a-center p-1">-->
+<!--       <span class="font-lg">{:lang('tx_cny')}</span> <input name="money"  class="ml-1 functions flex-1 border-0 font-lg" min="6" placeholder="{:lang('balance_transfer_in')}" style="height: 40px" type="number">-->
+<!--      </div>-->
+<!--    </div>-->
+<!--  </div>-->
+  <div class="px-1 " style="margin-top: 20px;padding-bottom: 20px">
+    <a href="javascript:" id="submit" class="bg-success d-flex j-center a-center rounded py-1 text-white font-md" style="height: 32px">{:lang('to_change_into')}</a>
+<!--    <a class=" d-flex  j-center a-center rounded border border-success py-1 text-white font-md mt-1" style="height: 32px;color:#61be49">投资记录</a>-->
+  </div>
+  
+</div>
+
+{include file="public/foot"}
+
+<script type="text/javascript">
+  layui.use(['layer','jquery'], function(){
+    var layer = layui.layer;
+    var $ = layui.jquery;
+    var nowPid = 9
+    var money = 0
+  
+    // 选择产品
+    $('.product-item').each(function (key,val){
+      if($(val).hasClass('border-success')){
+        nowPid = $(val).data('pid');
+      }
+      $(val).click(function (){
+        nowPid = $(this).data('pid');
+        $(this).parent().find('.border-success').removeClass('border-success');
+        $(this).addClass('border-success')
+      })
+    })
+    
+    // 投资金额验证
+    $("input[name='money']").blur(function (){
+      let val = $(this).val();
+      // if(val < 100000){
+      //   layer.msg("{:lang('min_investment')} "+"{:lang('zc_unit')}"+100000);
+      //   return;
+      // }
+      money = val;
+    })
+    
+    $("#submit").click(function (){
+      // if(money < 100000){
+      //   layer.msg("{:lang('min_investment')} "+"{:lang('zc_unit')}"+100000);
+      //   return;
+      // }
+  
+      layer.confirm('{$Think.lang.sy_is_buy}',{
+        title:false,
+        btn: ['{$Think.lang.confirm}', '{$Think.lang.cancel}'],
+        yes:function(index){
+          $.ajax({
+            url:'/index/Robot/invest',
+            type:'POST',
+            data:{id:nowPid,money},
+            success:function (res){
+              if(!res.status){
+                layer.msg(res.msg)
+                return;
+              }
+              window.location = '/index/Robot/robot'
+            }
+          })
+        }
+      });
+      
+      
+    })
+    
+  });
+</script>
+</body>
+</html>

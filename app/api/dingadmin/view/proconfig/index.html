@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>项目配置</title>
+    {include file="public/header"}
+</head>
+<body style="padding: 10px 10px 50px 10px;">
+    <div class="layui-container">
+        <form class="layui-form" action="" method="post" enctype="multipart/form-data" id="groupForm">
+            
+            <div class="layui-form-item">
+                <label class="layui-form-label">注册红包</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="hongbao" value="{$config.hongbao?$config.hongbao:''}" placeholder="" autocomplete="off" class="layui-input">
+                </div>
+                <div class="layui-form-mid layui-word-aux">元</div>
+            </div>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label">提现手续费</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="charge_ratio" value="{$config.charge_ratio?$config.charge_ratio:''}" autocomplete="off" class="layui-input">
+                </div>
+                <div class="layui-form-mid layui-word-aux">%</div>
+            </div>
+          <div class="layui-form-item">
+            <label class="layui-form-label">充值手续费</label>
+            <div class="layui-input-inline">
+              <input type="text" name="top_up_ratio" value="{$config.top_up_ratio?$config.top_up_ratio:''}" autocomplete="off" class="layui-input">
+            </div>
+            <div class="layui-form-mid layui-word-aux">%</div>
+          </div>
+
+
+
+
+            <div class="layui-form-item">
+                <label class="layui-form-label">最低提现额</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="charge_low" value="{$config.charge_low?$config.charge_low:''}" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label">溢出倍数</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="overflow" value="{$config.overflow?$config.overflow:''}" autocomplete="off" class="layui-input">
+                </div>
+                <div class="layui-form-mid layui-word-aux">用户收益达到产品单价倍数后停止收益</div>
+            </div>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label">一级比例</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="one_profit" value="{$config.one_profit?$config.one_profit:''}" autocomplete="off" class="layui-input">
+                </div>
+                <div class="layui-form-mid layui-word-aux">%(奖励直推用户收益比例)</div>
+            </div>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label">二级比例</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="two_profit" value="{$config.two_profit?$config.two_profit:''}" autocomplete="off" class="layui-input">
+                </div>
+                <div class="layui-form-mid layui-word-aux">%(奖励二代用户收益比例)</div>
+            </div>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label">三级比例</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="three_profit" value="{$config.three_profit?$config.three_profit:''}" autocomplete="off" class="layui-input">
+                </div>
+                <div class="layui-form-mid layui-word-aux">%(奖励三代用户收益比例)</div>
+            </div>
+            
+            
+
+            <!--<div class="layui-form-item">
+                <label class="layui-form-label">代理收益</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="agent_profit" value="{$config.agent_profit?$config.agent_profit:''}" autocomplete="off" class="layui-input">
+                </div>
+                <div class="layui-form-mid layui-word-aux">%(奖励代理下的用户充值会员所付金额比例)</div>
+            </div>-->
+            <div class="layui-form-item">
+                <label class="layui-form-label">一级首充</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="one_recommend" value="{$config.one_recommend?$config.one_recommend:''}" autocomplete="off" class="layui-input">
+                </div>
+                <div class="layui-form-mid layui-word-aux">%(奖励直推用户首充比例)</div>
+            </div>
+     
+            <div class="layui-form-item">
+                <label class="layui-form-label">二级首充</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="two_recommend" value="{$config.two_recommend?$config.two_recommend:''}" autocomplete="off" class="layui-input">
+                </div>
+                <div class="layui-form-mid layui-word-aux">%(奖励二代用户首充比例)</div>
+            </div>
+    
+            <div class="layui-form-item">
+                <label class="layui-form-label">三级首充</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="three_recommend" value="{$config.three_recommend?$config.three_recommend:''}" autocomplete="off" class="layui-input">
+                </div>
+                <div class="layui-form-mid layui-word-aux">%(奖励三代用户首充比例)</div>
+            </div>
+            <!-- <div class="layui-form-item">
+                <label class="layui-form-label">语言设置</label>
+                <div class="layui-input-inline">
+                    <select name="langtype" lay-verify="required">
+                        <option {if $config.langtype eq 1} selected {/if} value="1">中文</option>
+                        <option {if $config.langtype eq 2} selected {/if} value="2">英文</option>
+                        <option {if $config.langtype eq 3} selected {/if} value="3">印度语</option>
+                    </select>
+                </div>
+            </div> -->
+
+            <div class="layui-form-item">
+                <label class="layui-form-label">项目状态</label>
+                <div class="layui-input-inline">
+                    <input type="checkbox" name="is_lock" value="1" lay-skin="switch" {$config.is_lock?"checked":""} lay-text="开启|关闭">
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label">苹果下载</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="apple_download" value="{$config.apple_download?$config.apple_download:''}" autocomplete="off" class="layui-input">
+                </div>
+                <label class="layui-form-label">版本号</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="apple_version" value="{$config.apple_version?$config.apple_version:''}" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label">安卓下载</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="android_download" value="{$config.android_download?$config.android_download:''}" autocomplete="off" class="layui-input">
+                </div>
+                <label class="layui-form-label">版本号</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="android_version" value="{$config.android_version?$config.android_version:''}" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label">在线客服1</label>
+                <div class="layui-input-block">
+                    <input type="text" name="kefu" value="{$config.kefu?$config.kefu:''}" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label">在线客服2</label>
+                <div class="layui-input-block">
+                    <input type="text" name="kefu2" value="{$config.kefu2?$config.kefu2:''}" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label">在线客服3</label>
+                <div class="layui-input-block">
+                    <input type="text" name="kefu3" value="{$config.kefu3?$config.kefu3:''}" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label">TG链接</label>
+                <div class="layui-input-block">
+                    <input type="text" name="tg_link" value="{$config.tg_link?$config.tg_link:''}" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label">公告内容</label>
+                <div class="layui-input-block">
+                    <script id="content" name="gonggao" type="text/plain" style="height: 300px;">{$config.gonggao?$config.gonggao|raw:''}</script>
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label">跑马灯</label>
+                <div class="layui-input-block">
+                    <textarea name="madeng" placeholder="请输入跑马灯内容" class="layui-textarea">{$config.madeng?$config.madeng:''}</textarea>
+                </div>
+            </div>
+
+
+          <div class="layui-form-item">
+            <label class="layui-form-label">短信模板</label>
+            <div class="layui-input-block">
+              <textarea name="sms_msg" placeholder="请输入短信模板" class="layui-textarea">{$config.sms_msg?$config.sms_msg:''}</textarea>
+            </div>
+          </div>
+
+
+          <div class="layui-form-item">
+            <label class="layui-form-label">充值文字</label>
+            <div class="layui-input-block">
+              <textarea name="content" placeholder="请输入充值文字" class="layui-textarea">{$config.content?$config.content:''}</textarea>
+            </div>
+          </div>
+
+
+
+
+
+            <div class="layui-form-item">
+                <div class="layui-input-block">
+                    <button class="layui-btn" lay-submit lay-filter="formDemo">确定</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    
+
+
+{include file="public/foot"}
+<!-- 百度编辑器配置文件 -->
+<script src="/public/static/admin/vendor/ueditor/ueditor.config.js"></script>
+<!-- 百度编辑器源码文件 -->
+<script src="/public/static/admin/vendor/ueditor/ueditor.all.js"></script>
+<script>
+//实例化编辑器
+var ue = UE.getEditor('content',{
+    initialFrameWidth:null,
+});
+layui.use(['form','upload'], function(){
+    var form = layui.form;
+    var upload = layui.upload;
+    //监听提交
+    form.on('submit(formDemo)', function(data){
+        $.ajax({
+            url:"{:url('Proconfig/index')}",
+            type:"post",
+            data:$('#groupForm').serialize(),
+            success:function(res){
+                  if(res.status){
+                      layer.alert("操作成功", {icon: 6},function () {
+                          location.reload();
+                          var index = layer.getFrameIndex(window.name);
+                          layer.close(index);
+                      });
+                  }else{
+                      layer.msg(res.msg ? res.msg : "操作失败!", {icon: 5},function () {
+                          var index = layer.getFrameIndex(window.name);
+                          layer.close(index);
+                      });
+                      return false;
+                  }
+              }
+        });
+        return false;
+    })
+
+
+});
+
+$(function(){
+    $(window.parent.document).find('#right_title').text($('title').text());
+})
+</script>
+</body>
+</html>

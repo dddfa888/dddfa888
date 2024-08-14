@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Entre agora</title>
+  {include file="public/header"}
+
+  <style type="text/css">
+
+    .layui-input{border-radius: 10px;height: 42px;font-size: 16px;padding-left: 36px;}
+    .layui-form-item{text-align: center;}
+    .layui-btn{width: 88%;border-radius: 3rem;line-height: 3.4rem;border: 2px #fff solid;height: 3.4rem;font-size: 16px;}
+    .login{background-color: #fff;}
+    .login span{color: #fc5d03;}
+    .reg{background-color: #3FDADC;color: #fff;border: 1}
+    .langbox{position: absolute;right: 21px; top:21px;width: 7rem;background-color: #3FDADC;}
+    .layui-form-select .layui-input{font-size: 12px;height: 2rem;border-radius: 0;}
+    .mobile-span{position: absolute;left: 20px; bottom: 13px;font-size: 16px;color: #aaa;}
+  </style>
+</head>
+<body style="background-color: #3FDADC;position: relative;">
+  <div class="layui-container">
+    <div class="login_logo" style="padding-bottom: 20px;">
+      <div class="imgbox"><img src="{$logo}"></div>
+    </div>
+
+    <div class="langbox">
+      <form class="layui-form">
+      <select name="langtype" class="langtype" lay-filter="showbtn">
+        <option {if $langtype eq 1} selected {/if} value="1">Turkey</option>
+        <option {if $langtype eq 2} selected {/if} value="2">English</option>
+      </select>
+      </form>
+    </div>
+
+    <div class="login_form">
+      <form>
+        <div>
+          <div class="layui-form-item">
+            <span class="mobile-span">+90</span>
+            <input type="text" class="layui-input" id="username" name="username" placeholder="{$Think.lang.dl_phone_number}">
+          </div>
+          <div class="layui-form-item">
+            <input type="password" class="layui-input" id="password" name="password" placeholder="{$Think.lang.dl_password}">
+          </div>
+        </div>
+        <div>
+          <div>
+            <input type="radio" name="sex" value="1"><span style="color: #666;"> {$Think.lang.dl_remember_password}</span>
+            <a class="fpass" href="{:url('login/editpwd')}"> {$Think.lang.dl_forget_password}</a>
+          </div>
+        </div>
+        <div style="padding-top: 40px;">
+          <div class="layui-form-item"><a class="layui-btn login" id="loginBtn" href="javascript:;"><span> {$Think.lang.dl_login}</span></a></div>
+          <div class="layui-form-item"><a class="layui-btn reg" href="{:url('sem/regsem')}"> {$Think.lang.dl_register}</a></div>
+        </div>
+      </form>
+    </div>
+  </div>
+<script type="text/javascript">
+  layui.use(['layer','form'], function(){
+        var layer = layui.layer;
+        var form = layui.form;
+
+        form.on('select(showbtn)',function(data){
+          if(data.value) {
+              $.ajax({
+                  url:"{:url('Login/langtype')}",
+                  type:"post",
+                  data:{id:data.value},
+                  success:function(res){
+                      if (res.status==1) {
+                          location.reload();
+                      }
+                  }
+              });
+          }
+      });
+    });
+    //登录操作
+    $("#loginBtn").click(function(){
+        var username = $("#username").val();
+        var password = $("#password").val();
+        // alert(account);return;
+        $.ajax({
+            type:'post',
+            url:'{:url("index/login/index")}',
+            data:{username:username,password:password},
+            dataType:'json',
+            success:function(res){
+                if (res.status) {
+                    setTimeout(function(){
+                        location.href = '{:url("index/News/index")}';
+                    },1000);
+                    layer.msg(res.msg);
+                }else{
+                    layer.msg(res.msg);
+                    return false;
+                }
+            }
+        });
+    });
+
+</script>
+</body>
+</html>

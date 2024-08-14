@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{$Think.lang.cz_recharge}</title>
+    {include file="public/header"}
+
+    <style type="text/css">
+        .layui-form-item .ys {
+            border: 1px #61be49 solid;
+            border-radius: 0.5rem;
+            height: 50px;
+            line-height: 50px;
+        }
+
+        .money_check {
+            margin-top: 0.2rem;
+            padding: 0 4%;
+
+        }
+
+        .money_check li {
+            width: 33%;
+
+            /*margin-left: 3%;*/
+            text-align: center;
+
+            box-sizing: border-box;
+            padding: 2% 2%;
+
+        }
+
+        .money_check li span {
+            width: 100%;
+            height: 40px;
+            display: block;
+            border: 1px solid #ccc;
+            line-height: 40px;
+            border-radius: 6px;
+        }
+
+        /*.money_check li:nth-child(3n){*/
+        /*      margin-left: 0;*/
+        /*}*/
+        .active {
+            border: 1px solid #61be49;
+            background-color: #61be49;
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+<div class="header">
+    <span>{$Think.lang.cz_recharge}</span>
+</div>
+<div class="back">
+    <a href="javascript:history.go(-1);"><i class="layui-icon">&#xe603;</i></a>
+</div>
+
+<div style="clear: both;"></div>
+
+<div class="chongzhi">
+    <p class="p1">{$Think.lang.cz_balance}({$Think.lang.currency})</p>
+    <p class="p2">{$Think.lang.currency}{$money}</p>
+</div>
+
+<div class="money_check" id="money_check">
+    <ul style="display:flex;flex-wrap:wrap;">
+        {volist name="chongzhi" id="vo" }
+        <li>
+           <span data-zsamount="{$vo.js_amount}" data-money="{$vo.amount}">
+             {$Think.lang.currency} {$vo.amount}</span>
+            <!--           <p> {$Think.lang.currency}{$vo.js_amount}</p>-->
+        </li>
+        {/volist}
+
+    </ul>
+
+    <div class="layui-form-item">
+        <input type="text" name="recharge_money" placeholder="{$Think.lang.cz_input_money}" autocomplete="off"
+               class="layui-input">
+    </div>
+</div>
+
+
+<!--    <div class="shanghu">-->
+<!--      {$content}-->
+<!--    </div>-->
+
+<hr class="layui-border-cyan">
+
+<div class="layui-form-item" style="text-align: center;margin-top: 0.2rem">
+    <a class="layui-btn layui-btn-lg" id="showForm" style="background-color: #61be49;">{$Think.lang.cz_submit}</a>
+    <!--        <a class="layui-btn layui-btn-lg" lay-submit lay-filter="formDemo" id="sendbtn" style="background-color: #61be49;">{$Think.lang.cz_submit}</a>-->
+</div>
+
+
+<div id="payForm" class="layui-container " style="margin-top: 2rem;">
+    <form class="layui-form" id="groupForm">
+        <input type="hidden" name="pay_voucher">
+        <div class="layui-form-item">
+            <label>{:lang('cz_money')}</label>
+            <input type="text" name="money" autocomplete="off" class="layui-input">
+        </div>
+        <div class="layui-form-item">
+            <label>{:lang('yh_realname')}</label>
+            <input type="text" name="bank_username" autocomplete="off" class="layui-input">
+        </div>
+        <div class="layui-form-item">
+            <label>{:lang('yh_bankname')}</label>
+            <input type="text" name="bank_info" autocomplete="off" class="layui-input">
+        </div>
+        <div class="layui-form-item">
+            <button id="upload" type="button" class="layui-btn layui-btn-danger layui-btn-fluid">
+                <i class="layui-icon">&#xe67c;</i>{:lang('upload_pay_voucher')}
+            </button>
+        </div>
+        <div class="layui-form-item" style="text-align: center;">
+            <a class="layui-btn" lay-submit lay-filter="formDemo" id="sendbtn" style="background-color: #61be49;">{$Think.lang.cz_submit}</a>
+        </div>
+    </form>
+</div>
+
+
+<script type="text/javascript">
+    var money = $('.active').data('money');
+    var zsamount = $('.active').data('zsamount');
+    $('#money_check li span').click(function () {
+        $('#money_check li span').removeClass('active')
+        $(this).addClass('active')
+        money = $(this).data('money')
+        zsamount = $(this).data('zsamount')
+    })
+
+    $('#pay_type li span').click(function () {
+        $('#pay_type li span').removeClass('active')
+        $(this).addClass('active')
+    })
+
+    // $('#sendbtn').click(function (){
+    //    let money =  $('.active').data('money');
+    //    alert(money);
+    // })
+
+    layui.use(['layer', 'form', 'jquery', 'upload'], function () {
+        var layer = layui.layer;
+        var form = layui.form;
+        var $ = layui.jquery;
+        var upload = layui.upload;
+
+        $('#payForm').hide();
+
+        $('#showForm').click(function () {
+            var rechargeMoney = $("input[name='recharge_money']").val()
+            if (rechargeMoney != '' && rechargeMoney.length > 0) {
+                money = rechargeMoney
+                zsamount = 0
+            }
+            // var money = $("input[name='money']").val(money);
+            location.href = "rusPay?amount=" + money + "&zsamount=" + zsamount
+            // layer.open({
+            //     title:'',
+            //     type: 1,
+            //     skin: 'layui-layer-demo', //样式类名
+            //     closeBtn: 0, //不显示关闭按钮
+            //     anim: 2,
+            //     area: ['300px', '370px'],
+            //     shadeClose: true, //开启遮罩关闭
+            //     content: $('#payForm'),
+            // });
+            // $("input[name='money']").val(money);
+        })
+
+        var uploadInst = upload.render({
+            elem: '#upload' //绑定元素
+            , url: '/index/Task/uploads' //上传接口
+            , done: function (res) {
+                layer.msg(res.msg);
+                $("input[name='pay_voucher']").val(res.img);
+                //上传完毕回调
+            }
+        });
+
+        //监听提交
+        form.on('submit(formDemo)', function (data) {
+
+            console.log(data.field)
+
+            if (!data.field.money || !data.field.bank_info || !data.field.bank_username || !data.field.pay_voucher) {
+                layer.msg("{:lang('missing parameter')}");
+                return;
+            }
+
+            if (!$("input[name='pay_voucher']").val()) {
+                layer.msg("{:lang('missing payment voucher')}");
+                return;
+            }
+
+            $.ajax({
+                url: '{:url("index/Wallet/pay")}',
+                type: "post",
+                data: data.field,
+                beforeSend: function () {
+                    layer.load(2)
+                },
+                success: function (res) {
+                    window.location.href = res;
+                }
+            });
+        })
+    });
+
+
+</script>
+</body>
+</html>

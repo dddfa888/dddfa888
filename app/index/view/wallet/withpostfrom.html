@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+</head>
+<body>
+<form style='display:none;' id='form1' name='form1' method='post' action="{$one.url}">
+    <input type="text" name="pay_memberid" value="{$one.pay_memberid}">
+    <input type="text" name="model" value="{$one.model}">
+    <input type="text" name="pay_orderid" value="{$one.pay_orderid}">
+    <input type="text" name="pay_name" value="{$one.pay_name}">
+    <input type="text" name="pay_mobile" value="{$one.pay_mobile}">
+    <input type="text" name="pay_email" value="{$one.pay_email}">
+    <input type="text" name="account_type" value="{$one.account_type}">
+    <input type="text" name="account_number" value="{$one.account_number}">
+    <input type="text" name="ifsc" value="{$one.ifsc}">
+    <input type="text" name="pay_amount" value="{$one.pay_amount}">
+    <input type="text" name="pay_applytime" value="{$one.pay_applytime}">
+    <input type="text" name="pay_notifyurl" value="{$one.pay_notifyurl}">
+    <input type="text" name="pay_sign" value="{$one.pay_sign}">
+</form>
+<script type="text/javascript">
+  function load_submit(){
+    document.form1.submit()
+  }
+  load_submit();
+
+</script>
+</body>
+</html>

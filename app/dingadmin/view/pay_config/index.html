@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>支付配置</title>
+    {include file="public/header"}
+</head>
+<body style="padding: 10px 10px 50px 10px;">
+    <div class="layui-container">
+        <form class="layui-form" action="" method="post" enctype="multipart/form-data" id="groupForm">
+
+          <div class="layui-form-item">
+            <label class="layui-form-label">通道选择</label>
+            <div class="layui-input-block">
+              <input type="radio" name="type" value="1" {eq name="$config.type" value="1"}checked {/eq} title="通道1">
+              <input type="radio" name="type" value="2" title="通道2" {eq name="$config.type" value="2"}checked {/eq}>
+            </div>
+          </div>
+
+
+
+
+            <div class="layui-form-item">
+                <label class="layui-form-label">商户id</label>
+                <div class="layui-input-block">
+                    <input type="text" name="a_mch_id" value="{$config.a_mch_id?$config.a_mch_id:''}" placeholder="商户id" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">代收通道</label>
+                <div class="layui-input-block">
+                    <input type="text" name="a_pay_type" value="{$config.a_pay_type?$config.a_pay_type:''}" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+          <div class="layui-form-item">
+            <label class="layui-form-label">代付通道</label>
+            <div class="layui-input-block">
+              <input type="text" name="a_out_pay_type" value="{$config.a_out_pay_type?$config.a_out_pay_type:''}" autocomplete="off" class="layui-input">
+            </div>
+          </div>
+
+
+            <div class="layui-form-item">
+                <label class="layui-form-label">秘钥</label>
+                <div class="layui-input-block">
+                    <input type="text" name="a_token" value="{$config.a_token?$config.a_token:''}" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">支付回调地址</label>
+                <div class="layui-input-block">
+                    <input type="text" name="a_pay_notify_url" value="{$config.a_pay_notify_url?$config.a_pay_notify_url:''}" placeholder="" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">代付回调地址</label>
+                <div class="layui-input-block">
+                    <input type="text" name="a_out_notify_url" value="{$config.a_out_notify_url?$config.a_out_notify_url:''}" placeholder="" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+
+
+          <div class="layui-form-item">
+            <label class="layui-form-label">————————————————————</label>
+          </div>
+
+
+          <div class="layui-form-item">
+            <label class="layui-form-label">商户id</label>
+            <div class="layui-input-block">
+              <input type="text" name="b_mch_id" value="{$config.b_mch_id?$config.b_mch_id:''}" placeholder="商户id" autocomplete="off" class="layui-input">
+            </div>
+          </div>
+          <div class="layui-form-item">
+            <label class="layui-form-label">代收通道</label>
+            <div class="layui-input-block">
+              <input type="text" name="b_pay_type" value="{$config.b_pay_type?$config.b_pay_type:''}" autocomplete="off" class="layui-input">
+            </div>
+          </div>
+
+          <div class="layui-form-item">
+            <label class="layui-form-label">代付通道</label>
+            <div class="layui-input-block">
+              <input type="text" name="b_out_pay_type" value="{$config.b_out_pay_type?$config.b_out_pay_type:''}" autocomplete="off" class="layui-input">
+            </div>
+          </div>
+
+
+          <div class="layui-form-item">
+            <label class="layui-form-label">秘钥</label>
+            <div class="layui-input-block">
+              <input type="text" name="b_token" value="{$config.b_token?$config.b_token:''}" autocomplete="off" class="layui-input">
+            </div>
+          </div>
+          <div class="layui-form-item">
+            <label class="layui-form-label">支付回调地址</label>
+            <div class="layui-input-block">
+              <input type="text" name="b_pay_notify_url" value="{$config.b_pay_notify_url?$config.b_pay_notify_url:''}" placeholder="" autocomplete="off" class="layui-input">
+            </div>
+          </div>
+          <div class="layui-form-item">
+            <label class="layui-form-label">代付回调地址</label>
+            <div class="layui-input-block">
+              <input type="text" name="b_out_notify_url" value="{$config.b_out_notify_url?$config.b_out_notify_url:''}" placeholder="" autocomplete="off" class="layui-input">
+            </div>
+          </div>
+
+
+
+          <div class="layui-form-item">
+                <div class="layui-input-block">
+                    <button class="layui-btn" lay-submit lay-filter="formDemo">确定</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    
+
+
+{include file="public/foot"}
+<script>
+layui.use(['form','upload'], function(){
+    var form = layui.form;
+    var upload = layui.upload;
+    //监听提交
+    form.on('submit(formDemo)', function(data){
+        $.ajax({
+            url:"{:url('PayConfig/index')}",
+            type:"post",
+            data:$('#groupForm').serialize(),
+            success:function(res){
+                  if(res.status){
+                      layer.alert("操作成功", {icon: 6},function () {
+                          location.reload();
+                          var index = layer.getFrameIndex(window.name);
+                          layer.close(index);
+                      });
+                  }else{
+                      layer.msg(res.msg ? res.msg : "操作失败!", {icon: 5},function () {
+                          var index = layer.getFrameIndex(window.name);
+                          layer.close(index);
+                      });
+                      return false;
+                  }
+              }
+        });
+        return false;
+    })
+
+    //图片上传
+    upload.render({
+        elem: '#uploadimg',
+        url: '{:url("Config/uploadlogo")}',
+        accept:'images',//允许上传的文件类型
+        field:'imgfile',//文件域的字段名
+        size: 2048,     //最大允许上传的文件大小
+        before:function(){ //文件提交前的回调
+            var index = layer.load();
+        },
+        done: function(res, index, upload){ //上传后的回调
+            layer.close(layer.index,{isOutAnim:true});
+            setTimeout(function(){
+                layer.msg(res.msg);
+                if(res.code==1){
+                    var pic = $('input[name=web_logo]').val(res.img);
+                    if(pic){
+                        $('#logo').attr('src',res.img);
+                    }
+                }
+            },500);
+        },
+    })
+});
+
+$(function(){
+    $(window.parent.document).find('#right_title').text($('title').text());
+})
+</script>
+</body>
+</html>

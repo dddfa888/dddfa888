@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{$Think.lang.ab_about}</title>
+    {include file="public/header"}
+    {include file="public/kefu"}
+    <style type="text/css">
+
+    </style>
+</head>
+<body>
+    <div class="header">
+        <span>{$Think.lang.ab_about}</span>
+    </div>
+    <div class="back">
+        <a href="javascript:history.go(-1);"><i class="layui-icon">&#xe603;</i></a>
+    </div>
+    
+    <div style="clear: both;"></div>
+
+    <div class="layui-container" style="margin-top: 1rem;">
+        {$new.content|raw}
+    </div>
+
+
+
+    {include file="public/foot"}
+
+<script type="text/javascript">
+    layui.use(['layer','form'], function(){
+        var layer = layui.layer;
+        var form = layui.form;
+    });
+
+</script>
+</body>
+</html>

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>图片</title>
+    {include file="public/header"}
+</head>
+<body style="padding: 0px 10px;padding-bottom: 45px;" enctype="multipart/form-data">
+<table class="layui-table">
+    <colgroup>
+        <col width="60">
+        <col>
+        <col width="100">
+        <col width="60">
+    </colgroup>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>缩略图</th>
+            <th>排序</th>
+            <th>操作</th>
+        </tr> 
+    </thead>
+    <tbody>
+        {volist name="pics" id="vo"}
+        <tr>
+            <td>{$vo.id}</td>
+            <td><img src="{$vo.pic}" style="height: 60px;width: 100px;"></td>
+            <td><input type="text" onchange="changesort(this)" id="{$vo.id}" name="sort" value="{$vo.sort}" class="layui-input"></td>
+            <td><a href="{:url('article/delpic',['id'=>$vo.id])}" class="layui-btn layui-btn-xs layui-btn-danger del">删除</a></td>
+        </tr>
+        {/volist}
+    </tbody>
+</table>
+    
+
+
+{include file="public/foot"}
+<script>
+//排序操作
+function changesort(obj){
+    var id = $(obj).attr('id');
+    var sortval = $(obj).val();
+    layui.use(['layer'], function(){
+        var layer = layui.layer;
+        $.ajax({
+            'type':'post',
+            'url':"{:url('article/picsort')}",
+            'data':{'id':id,'sort':sortval},
+            success:function(msg){
+                layer.msg(msg.msg,{time:1000},function(){
+                    if(msg.code==1){
+                        window.location.reload();
+                    }
+                })
+            }
+        });
+    })
+    
+}
+</script>
+</body>
+</html>

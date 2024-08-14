@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{$Think.lang.personal_center}</title>
+    {include file="public/header"}
+    {include file="public/kefu"}
+    <style type="text/css">
+        .container{
+            display: flex;
+            width: 100%;
+            padding: 1rem 1rem 1rem 0rem;
+            justify-content: space-around;
+        }
+        .children-item{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+    </style>
+</head>
+<body>
+<div class="my_top">
+    <div>
+        <p class="my_top_left_user">{$user.phone}</p>
+        <p><span>{$Think.lang.my_grade}：<i style="color: red;">{if $user.lv_name} {$user.lv_name} {else/} {$Think.lang.my_ordinary_member} {/if}</i></span>
+        </p>
+        <p><span>{$Think.lang.my_balance}：<i style="color: green;">{$user.money}</i></span> <span
+                style="margin-left: 20px">{$Think.lang.integral}：<i style="color: green;">{$user.integral}</i></span>
+        </p>
+    </div>
+
+</div>
+<div class="my_imgad">
+    <img src="/public/static/index/img/myad.png">
+</div>
+<div style="clear: both;"></div>
+
+<div class="container">
+    <div class="nav-item">
+        <a class="children-item" href="{:url('index/Wallet/onlinerecharge')}">
+            <img src="/public/static/index/img/p1.png">
+            <p>{$Think.lang.recharge}</p>
+        </a>
+    </div>
+
+    <div class="nav-item">
+        <a class="children-item" href="{:url('index/Wallet/withdrawn')}">
+            <img src="/public/static/index/img/p4.png">
+            <p>{$Think.lang.withdrawal}</p>
+        </a>
+    </div>
+
+    <div class="nav-item">
+        <a class="children-item" href="{:url('index/Index/zhitui')}">
+            <img src="/public/static/index/img/p3.png">
+            <p>{$Think.lang.my_team}</p>
+        </a>
+    </div>
+
+</div>
+
+<div style="padding: 0.5rem 4% 6rem;box-sizing: border-box;width: 100%;">
+    <ul class="my_lanmu">
+        <a href="{:url('index/Index/personal')}">
+            <li>
+                <img src="/public/static/index/img/p1.png">
+                <p>{$Think.lang.personal_data}</p>
+            </li>
+        </a>
+        <!--<a href="{$kefu}">
+          <li>
+            <img src="/public/static/index/img/p2.png">
+            <p>{$Think.lang.online_service}</p>
+          </li>
+        </a> -->
+        <a href="{:url('index/Index/zhitui')}">
+            <li>
+                <img src="/public/static/index/img/p3.png">
+                <p>{$Think.lang.my_team}</p>
+            </li>
+        </a>
+        <a href="{:url('index/Index/tgm')}">
+            <li>
+                <img src="/public/static/index/img/p11.png">
+                <p>{$Think.lang.fx_invite_friends}</p>
+            </li>
+        </a>
+        <a href="{:url('index/Wallet/withdrawn')}">
+            <li>
+                <img src="/public/static/index/img/p4.png">
+                <p>{$Think.lang.withdrawal}</p>
+            </li>
+        </a>
+        <a href="{:url('index/Wallet/onlinerecharge')}">
+            <li>
+                <img src="/public/static/index/img/p5.png">
+                <p>{$Think.lang.recharge}</p>
+            </li>
+        </a>
+        <!--提现账户-->
+        <!--<a href="{$tglink}">
+          <li>
+            <img src="/public/static/index/img/p11.png">
+            <p>{$Think.lang.withdrawal_account}</p>
+          </li>
+        </a>-->
+        <a href="{:url('index/Wallet/award')}">
+            <li>
+                <img src="/public/static/index/img/p7.png">
+                <p>{$Think.lang.my_wallet}</p>
+            </li>
+        </a>
+        <!--会员升级-->
+        <!--<a href="{:url('index/Wallet/vip_upgrade')}">
+          <li>
+            <img src="/public/static/index/img/p8.png">
+            <p>{$Think.lang.vip_upgrade}</p>
+          </li>
+        </a>-->
+        <a href="{:url('index/News/help')}">
+            <li>
+                <img src="/public/static/index/img/p9.png">
+                <p>{$Think.lang.notice}</p>
+            </li>
+        </a>
+        <a href="{:url('index/News/xiangmu')}">
+            <li>
+                <img src="/public/static/index/img/p3.png">
+                <p>{$Think.lang.about_us}</p>
+            </li>
+        </a>
+        <!--       <a href="{$download}">
+                <li>
+                  <img src="/public/static/index/img/p10.png">
+                  <p>{$Think.lang.App_download}</p>
+                  <img class="right_img" src="img/jr.png">
+                </li>
+              </a> -->
+
+        <a href="javascript:;" onclick="tuichu()">
+            <li>
+                <img src="/public/static/index/img/p1.png">
+                <p>{$Think.lang.sign_out}</p>
+            </li>
+        </a>
+    </ul>
+</div>
+{include file="public/foot"}
+
+<script type="text/javascript">
+    layui.use(['layer', 'form'], function () {
+        var layer = layui.layer;
+        var form = layui.form;
+    });
+
+    function tuichu() {
+        layer.confirm('{$Think.lang.is_sign_out}', {
+            title: 'information',
+            btn: ['yes', 'no'],
+            yes: function (index) {
+                location.href = '{:url("index/login/logout")}';
+            }
+        });
+        // layer.confirm('{$Think.lang.is_sign_out}',function(index){
+        //     location.href = '{:url("index/login/logout")}';
+        // });
+    }
+</script>
+</body>
+</html>

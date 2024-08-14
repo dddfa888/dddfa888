@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{$Think.lang.index}</title>
+    {include file="public/header"}
+    {include file="public/kefu"}
+    <script type="text/javascript" src="/public/static/index/js/TouchSlide.1.1.js"></script>
+    <style type="text/css">
+        .zmd {
+            position: fixed;
+            bottom: 60px;
+            width: 100%;
+            z-index: 98;
+        }
+
+        .container {
+            width: 100%;
+            height: 2rem;
+            background: rgba(0, 140, 214, 0.5);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .content {
+            width: 100%;
+            font-size: 0.82rem;
+            line-height: 2rem;
+            color: #fff;
+            position: absolute;
+            text-align: center
+        }
+
+        .content > span {
+            color: #f00;
+            font-weight: bold;
+        }
+
+        @keyframes move {
+            from {
+                transform: translateX(0%);
+            }
+            to {
+                transform: translateX(-120%);
+            }
+        }
+
+        .gonggao {
+            width: 60%;
+            height: 20rem;
+            background-color: #fff;
+            position: absolute;
+            left: 50%;
+            padding: 1rem;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            overflow: auto;
+        }
+
+        .gonggao h3 {
+            padding-bottom: 0.2rem;
+        }
+
+        .container-icon {
+            background: white;
+            display: flex;
+            width: 100%;
+            height: 4rem;
+            padding: 1rem 1rem 1rem 0rem;
+            justify-content: space-around;
+        }
+
+
+        .children-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 4rem;
+            height: 4rem;
+        }
+        .children-item img{
+            width: 100%;
+        }
+
+        .children-text{
+            width: 5rem;
+            text-align: center;
+            word-break:break-all;
+        }
+    </style>
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <!-- 尺寸的设置以及页面是否允许缩放 -->
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0"/>
+    <!-- 删除苹果默认的工具栏和菜单栏 -->
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <meta name="apple-mobile-web-app-status-bar-style" content="black"/>
+</head>
+<body>
+<div style="padding-top: 1rem;"></div>
+<!-- 轮播图 -->
+<div class="page-content" style="background: #fff;padding: 20px 0 10px;">
+    <div class="slideBox" id="slideBox">
+        <div class="bd" style="margin-top: 0px;">
+            <ul>
+                {volist name="banner" id="vo" lenght="4"}
+                <li><a class="pic" href="{$vo.url}"><img src="{$vo.pic}" style="height:160px;"></a></li>
+                {/volist}
+            </ul>
+        </div>
+        <div class="hd">
+            <ul></ul>
+        </div>
+    </div>
+    <div class="container-icon">
+        <div class="nav-item">
+            <a class="children-item" href="{:url('index/Index/tgm')}">
+                <div>
+                    <img src="/public/static/index/img/p11.png">
+                </div>
+
+                <div class="children-text">{$Think.lang.fx_invite_friends}</div>
+            </a>
+        </div>
+        <div class="nav-item">
+            <a class="children-item" href="{:url('index/Wallet/onlinerecharge')}">
+                <img src="/public/static/index/img/p5.png">
+                <div class="children-text">{$Think.lang.recharge}</div>
+            </a>
+        </div>
+        <div class="nav-item">
+            <a class="children-item" href="{$download}">
+                <img src="/public/static/index/img/p10.png">
+                <div class="children-text">{$Think.lang.App_download}</div>
+            </a>
+        </div>
+
+        <div class="nav-item">
+            <a class="children-item" href="{:url('index/News/xiangmu')}">
+                <img src="/public/static/index/img/p3.png">
+                <div class="children-text">{$Think.lang.about_us}</div>
+            </a>
+        </div>
+    </div>
+</div>
+
+<div style="clear: both;"></div>
+
+
+<!-- 产品内容 -->
+<div class="layui-container" style="padding-bottom: 10rem;">
+
+    {volist name="robot" id="v"}
+    <div class="probox" style="padding-top: 1rem;">
+        <div class="index_tr1">
+            <div class="lf pic"><img src="{$v.thumb}"></div>
+            <div class="lf txt">{$v.title}</div>
+            <div class="lr zhouqi">{$v.yxzq} {$Think.lang.sy_day}</div>
+            <div class="lr zhouqi">
+                {if condition="$v.type == 1"}{$Think.lang.current}
+                {else} {$Think.lang.on_regular_basis}
+                {/if}
+
+            </div>
+        </div>
+        <div style="clear: both;"></div>
+        <div class="index_tr2">
+            <div class="lf">
+                <p class="p1" style="font-size: 12px">{:config('app.currency')}{$v.day_shouyi}</p>
+                <p class="p2">{$Think.lang.sy_day_revenue}</p>
+            </div>
+            <div class="lf">
+                <p class="p1" style="font-size: 12px">{:config('app.currency')}{$v.Month_income}</p>
+                <p class="p2">{$Think.lang.sy_yue_revenue}</p>
+            </div>
+            <div class="lf">
+                <p class="p1" style="font-size: 12px">{:config('app.currency')}{$v.price}</p>
+                <p class="p2">{$Think.lang.sy_buy_fee}</p>
+            </div>
+            <div class="lf">
+                <a class="gmbtn" onclick="fenhong(this,'{$v.id}')" href="javascript:;">{$Think.lang.sy_buy}</a>
+            </div>
+        </div>
+    </div>
+    {/volist}
+</div>
+{:lang('profit')}
+
+<!-- 走马灯 -->
+
+
+<div class="zmd">
+    <div class="container">
+        <ul class="content">
+            <li>90****5361 {:lang('profit')} {:config('app.currency')}5253</li>
+            <li>90****7493 {:lang('profit')} {:config('app.currency')}4100</li>
+            <li>90****5084 {:lang('cash_withdrawal')} {:config('app.currency')}29000</li>
+            <li>90****4715 {:lang('cash_withdrawal')} {:config('app.currency')}238800</li>
+            <li>90****6756 {:lang('profit')} {:config('app.currency')}51800</li>
+            <li>90****5387 {:lang('profit')} {:config('app.currency')}21800</li>
+            <li>90****2699 {:lang('cz_recharge')} {:config('app.currency')}50000</li>
+            <li>90****9575 {:lang('cash_withdrawal')} {:config('app.currency')}660000</li>
+            <li>90****1012 {:lang('cz_recharge')} {:config('app.currency')}1000000</li>
+            <li>90****3174 {:lang('profit')} {:config('app.currency')}1460</li>
+            <li>90****5863 {:lang('profit')} {:config('app.currency')}3570</li>
+            <li>90****5092 {:lang('cash_withdrawal')} {:config('app.currency')}34000</li>
+            <li>90****5385 {:lang('cz_recharge')} {:config('app.currency')}500000</li>
+            <li>90****6753 {:lang('cash_withdrawal')} {:config('app.currency')}24800</li>
+            <li>90****2712 {:lang('profit')} {:config('app.currency')}55300</li>
+            <li>90****6683 {:lang('profit')} {:config('app.currency')}15700</li>
+            <li>90****1065 {:lang('cz_recharge')} {:config('app.currency')}1000000</li>
+            <li>90****7877 {:lang('profit')} {:config('app.currency')}2220</li>
+            <li>90****7198 {:lang('cash_withdrawal')} {:config('app.currency')}59000</li>
+            <li>90****2672 {:lang('profit')} {:config('app.currency')}49800</li>
+            <li>90****3141 {:lang('cz_recharge')} {:config('app.currency')}1000000</li>
+            <li>90****6585 {:lang('cz_recharge')} {:config('app.currency')}1000000</li>
+            <li>90****1365 {:lang('cz_recharge')} {:config('app.currency')}2000000</li>
+            <li>90****0962 {:lang('cz_recharge')} {:config('app.currency')}1000000</li>
+            <li>90****7808 {:lang('cz_recharge')} {:config('app.currency')}1000000</li>
+            <li>90****6935 {:lang('cash_withdrawal')} {:config('app.currency')}8200</li>
+            <li>90****2002 {:lang('cash_withdrawal')} {:config('app.currency')}8200</li>
+            <li>90****2721 {:lang('cz_recharge')} {:config('app.currency')}500000400</li>
+            <li>90****3154 {:lang('profit')} {:config('app.currency')}39000</li>
+            <li>90****2837 {:lang('cash_withdrawal')} {:config('app.currency')}59000</li>
+            <li>90****5771 {:lang('cash_withdrawal')} {:config('app.currency')}3320</li>
+            <li>90****7505 {:lang('cash_withdrawal')} {:config('app.currency')}33790</li>
+            <li>90****2968 {:lang('profit')} {:config('app.currency')}46000</li>
+            <li>90****6862 {:lang('cz_recharge')} {:config('app.currency')}100000</li>
+            <li>90****2172 {:lang('cz_recharge')} {:config('app.currency')}200000</li>
+            <li>90****1020 {:lang('profit')} {:config('app.currency')}12880</li>
+            <li>90****6555 {:lang('cash_withdrawal')} {:config('app.currency')}25470</li>
+            <li>90****2572 {:lang('cz_recharge')} {:config('app.currency')}2000000</li>
+            <li>90****4290 {:lang('cz_recharge')} {:config('app.currency')}5000000</li>
+            <li>90****5535 {:lang('cz_recharge')} {:config('app.currency')}1000000</li>
+            <li>90****9912 {:lang('cz_recharge')} {:config('app.currency')}1000000</li>
+            <li>90****1514 {:lang('profit')} {:config('app.currency')}35600</li>
+            <li>90****5266 {:lang('cash_withdrawal')} {:config('app.currency')}33250</li>
+            <li>90****2223 {:lang('cash_withdrawal')} {:config('app.currency')}6500</li>
+            <li>90****5526 {:lang('cash_withdrawal')} {:config('app.currency')}3000</li>
+            <li>90****4757 {:lang('profit')} {:config('app.currency')}38900</li>
+            <li>90****8246 {:lang('profit')} {:config('app.currency')}331000</li>
+            <li>90****2915 {:lang('profit')} {:config('app.currency')}5570</li>
+            <li>90****6722 {:lang('cz_recharge')} {:config('app.currency')}500000</li>
+            <li>90****8842 {:lang('cash_withdrawal')} {:config('app.currency')}23500</li>
+            <li>90****6925 {:lang('profit')} {:config('app.currency')}47100</li>
+            <li>90****1157 {:lang('cz_recharge')} {:config('app.currency')}200000</li>
+            <li>90****2569 {:lang('cz_recharge')} {:config('app.currency')}1000000</li>
+            <li>90****5238 {:lang('cz_recharge')} {:config('app.currency')}100000</li>
+            <li>90****4820 {:lang('profit')} {:config('app.currency')}28600</li>
+            <li>90****2556 {:lang('cash_withdrawal')} {:config('app.currency')}2000</li>
+            <li>90****6179 {:lang('profit')} {:config('app.currency')}3660</li>
+            <li>90****4536 {:lang('cz_recharge')} {:config('app.currency')}200000</li>
+            <li>90****5237 {:lang('profit')} {:config('app.currency')}4490</li>
+            <li>90****5356 {:lang('profit')} {:config('app.currency')}5050</li>
+            <li>90****2969 {:lang('profit')} {:config('app.currency')}1610</li>
+            <li>90****3816 {:lang('cz_recharge')} {:config('app.currency')}5000000</li>
+            <li>90****8358 {:lang('profit')} {:config('app.currency')}3040</li>
+            <li>90****1540 {:lang('profit')} {:config('app.currency')}14100</li>
+            <li>90****8923 {:lang('cash_withdrawal')} {:config('app.currency')}6600</li>
+            <li>90****2568 {:lang('cz_recharge')} {:config('app.currency')}1340</li>
+            <li>90****6150 {:lang('cash_withdrawal')} {:config('app.currency')}1000000</li>
+            <li>90****4230 {:lang('cz_recharge')} {:config('app.currency')}5000000</li>
+            <li>90****2620 {:lang('cz_recharge')} {:config('app.currency')}2000000</li>
+            <li>90****6674 {:lang('profit')} {:config('app.currency')} 17600</li>
+            <li>90****7987 {:lang('cash_withdrawal')} {:config('app.currency')}15300</li>
+            <li>90****2356 {:lang('profit')} {:config('app.currency')}35400</li>
+            <li>90****2274 {:lang('cz_recharge')} {:config('app.currency')}1000000</li>
+            <li>90****4831 {:lang('profit')} {:config('app.currency')}24500</li>
+            <li>90****1026 {:lang('cash_withdrawal')} {:config('app.currency')}36000</li>
+            <li>90****6809 {:lang('cz_recharge')} {:config('app.currency')}1000000</li>
+        </ul>
+    </div>
+</div>
+{if $gonggao}
+<!-- 弹窗公告 -->
+<div id="fixedid"
+     style="position: fixed;width: 100%;height: 100%;background-color: rgba(0,0,0,.9);left: 0;top: 0;z-index: 999">
+
+    <div class="gonggao">
+        <div style="font-size: 18px;position: absolute;right: 10px;top: 6px;">x</div>
+        <p style="padding-top: 1rem;">{$gonggao|raw}</p>
+
+    </div>
+</div>
+{/if}
+
+{include file="public/foot"}
+
+
+<script type="text/javascript">
+    var AutoScroll = function (a) {
+        $(a).find("ul:first").animate({
+            marginTop: "-20px"
+        }, 500, function () {
+            $(this).css({
+                marginTop: "0px"
+            }).find("li:first").appendTo(this)
+        })
+    }
+    if ($(".container ul li").length > 0) {
+        setInterval('AutoScroll(".container")', 2000)
+    }
+    //   asd
+    $('#fixedid').click(function () {
+        $(this).hide()
+    })
+    // 轮播图
+    TouchSlide({
+        slideCell: "#slideBox",
+        titCell: "#slideBox .hd ul",
+        mainCell: "#slideBox .bd ul",
+        effect: "leftLoop",
+        autoPage: true,
+        autoPlay: true,
+        interTime: 3000
+    });
+
+    layui.use(['layer', 'form'], function () {
+        var layer = layui.layer;
+        var form = layui.form;
+    });
+
+    function fenhong(obj, id) {
+        layer.confirm('{$Think.lang.sy_is_buy}', {
+            title: false,
+            btn: ['{$Think.lang.confirm}', '{$Think.lang.cancel}'],
+            yes: function (index) {
+                $.ajax({
+                    url: "{:url('Robot/buy')}",
+                    type: 'post',
+                    data: {id: id},
+                    success: function (res) {
+                        if (res.status) {
+                            //余额不足
+                            if (res.status === 22) {
+                                layer.msg(res.msg, {icon: 5}, function () {
+                                    window.location.href = "/index/Wallet/onlinerecharge";
+                                });
+                                return
+                            }
+                            layer.msg(res.msg, {icon: 6}, function () {
+                                location.reload();
+                            });
+                        } else {
+                            layer.msg(res.msg);
+                        }
+                    }
+                });
+            }
+        });
+    }
+
+</script>
+</body>
+</html>

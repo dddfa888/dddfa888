@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>权限管理</title>
+  {include file="public/header"}
+</head>
+<body style="padding: 0 0 80px 0;">
+
+  <div class="layui-form" style="padding: 20px 0 0 0;">
+
+    <form method="post" action="" autocomplete="off" class="layui-form">
+      <input type="hidden" name="roleid" value="{$Request.param.roleid|htmlspecialchars}">
+      <div class="layui-form-item">
+        <label class="layui-form-label">权限列表</label>
+        {volist name="menus" id="vo"}
+        <div class="layui-input-block">
+          <input type="checkbox" name="menu[{$vo.id}]" title="{$vo.title}" value="{$vo['id']}" lay-skin="primary" class="level_one" {in name="$vo['id']" value="$rulesArr" }checked{/in}> 
+          {volist name="vo[$vo['id']]" id="v"}
+            <div class="layui-input-block">
+              <input type="checkbox" name="menu[{$v.id}]" title="{$v.title}" value="{$v['id']}" lay-skin="primary" class="level_two" {in name="$v['id']" value="$rulesArr" }checked{/in}> 
+              {volist name="v[$v['id']]" id="v1"}
+              <div class="layui-input-block">
+                  <input type="checkbox" name="menu[{$v1.id}]" lay-skin="primary" title="{$v1.title}" value="{$v1['id']}" class="level_three" {in name="$v1['id']" value="$rulesArr" }checked{/in}>
+              </div>
+              {/volist}
+            </div> 
+          {/volist}
+        </div>
+        {/volist}
+
+      </div>
+
+      <div class="layui-form-item">
+        <div class="layui-input-block">
+            <button class="layui-btn" lay-submit lay-filter="auth">立即提交</button>
+        </div>
+      </div>
+    </form>
+  </div>
+
+
+{include file="public/foot"}
+
+<script>
+layui.use(['layer','form'],function(){
+  var form = layui.form,$ = layui.jquery,layer = layui.layer;
+  //选中
+  $('.layui-form-checkbox').on('click', function (e){
+    var children = $(this).parent('.layui-input-block').find('.layui-form-checkbox');
+    var input = $(this).parent('.layui-input-block').find('input');
+    if($(this).prev('input').hasClass('level_three')){
+      if($(this).hasClass('layui-form-checked') == true){
+        $(this).addClass('layui-form-checked')
+        $(this).prev('input').prop('checked',true);
+      }else{
+        $(this).removeClass('layui-form-checked');
+        $(this).prev('input').prop('checked',false);
+      }
+    }else{
+      if($(this).hasClass('layui-form-checked') == true){
+        children.addClass('layui-form-checked')
+        input.prop('checked',true);
+      }else{
+        children.removeClass('layui-form-checked');
+        input.prop('checked',false);
+      }
+    }
+  })
+  //监听提交
+  form.on('submit(auth)',function(data){
+    var menu_ids = data.field;
+    var url = "{:url('Auth/rule')}";
+    $.post(url,menu_ids,function(data){
+      if (data.status == 'error') {
+        layer.msg(data.msg,{icon: 5});//失败的表情
+        return;
+      }else{
+        layer.msg(data.msg,{icon: 6,time: 2000},function(){
+          history.go(-1);
+        });
+      }
+    });
+    return false;//阻止表单跳转
+  });
+
+})
+
+
+
+//页面导航标题内容
+$(function(){
+  $(window.parent.document).find('#right_title').text($('title').text());
+})
+
+</script>
+</body>
+</html>

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{$Think.lang.lv_upgrade}</title>
+    {include file="public/header"}
+    {include file="public/kefu"}
+    <style type="text/css">
+        .layui-form-item .ys{border: 1px #61be49 solid;border-radius: 0.5rem;height: 50px;line-height: 50px;}
+    </style>
+</head>
+<body>
+
+    <div class="header">
+      <span>{$Think.lang.lv_upgrade}</span>
+    </div>
+    <div class="back">
+      <a href="javascript:history.go(-1);"><i class="layui-icon">&#xe603;</i></a>
+    </div>
+    <div style="clear: both;"></div>
+
+
+
+
+    <div class="layui-container" style="margin-top: 3rem;">
+        <form class="layui-form" id="groupForm">
+            <input type="hidden" name="id">
+            <div class="layui-form-item">
+                <select name="level" lay-verify="required">
+                    {volist name="lvarr" id="vo"}
+                    <option {if $one.lv_id eq $vo.level} selected {/if} value="{$vo.level}">{$vo.lv_name}({$Think.lang.lv_price}：{$vo.price})</option>
+                    {/volist}
+                </select>
+            </div>
+            <div class="layui-form-item" style="text-align: center;">
+                <a class="layui-btn" lay-submit lay-filter="formDemo" id="sendbtn" style="background-color: #61be49;" href="javascript:;">{$Think.lang.lv_submit}</a>
+            </div>
+        </form>
+    </div>
+
+    {include file="public/foot"}
+
+<script type="text/javascript">
+    layui.use(['layer','form'], function(){
+        var layer = layui.layer;
+        var form = layui.form;
+        //监听提交
+        form.on('submit(formDemo)', function(data){
+            $.ajax({
+                url:'{:url("index/Wallet/vip_upgrade")}',
+                type:"post",
+                data:$('#groupForm').serialize(),
+                success:function(res){
+                      if(res.status){
+                          layer.msg(res.msg, {icon: 6},function () {
+                              location.reload();
+                              var index = layer.getFrameIndex(window.name);
+                              layer.close(index);
+                          });
+                      }else{
+                          layer.msg(res.msg, {icon: 5},function () {
+                              var index = layer.getFrameIndex(window.name);
+                              layer.close(index);
+                          });
+                          return false;
+                      }
+                  }
+            });
+            return false;
+        })
+    });
+
+</script>
+</body>
+</html>

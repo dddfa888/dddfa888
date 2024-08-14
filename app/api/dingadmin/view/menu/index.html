@@ -1,0 +1,96 @@
+
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>菜单列表</title>
+  {include file="public/header"}
+</head>
+<body style="padding: 0 0 200px 0;">
+
+  <div class="layui-container">
+    <div class="ibox-title">
+        <div class="row">
+            <div>
+                <a href="javascript:;" class="layui-btn layui-btn-small" onclick="menu_add('添加菜单','{:url('Menu/add')}',540,320)">添加菜单</a>
+            </div>
+        </div>
+    </div>
+    <table class="layui-table">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>菜单名称</th>
+                <th>控制器名称</th>
+                <th>方法名</th>
+                <th>菜单级别</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            {volist name="menu" id="vo"}
+            <tr>
+                <td>{$vo.id}</td>
+                <td>{if condition="$vo['level'] eq 0"}├─{else/}└─{/if}{$vo.title}</td>
+                <td>{$vo.controller}</td>
+                <td>{$vo.action}</td>
+                <td>{if condition="!$vo['pid']"}一级菜单{else/}二级菜单{/if}</td>
+                <td>
+                  <a href="javascript:;" class="layui-btn layui-btn-sm" onclick="menu_add('添加子菜单','{:url('menu/add',['pid'=>$vo['id']])}',540,320)">添加子菜单</a>
+                  <a href="javascript:;" class="layui-btn layui-btn-sm" onclick="menu_edit('编辑菜单','{:url('menu/edit',['id'=>$vo['id']])}',540,320)">编辑</a>
+                  <a href="javascript:;" class="layui-btn layui-btn-sm layui-btn-danger" onclick="menu_del(this,'{$vo['id']}')">删除</a>
+                </td>
+            </tr>
+            {/volist}
+
+
+        </tbody>
+    </table>
+    <div style="text-align: right;"></div>
+  </div>
+  {include file="public/foot"}
+  
+<script>
+layui.use(['layer','form'], function(){
+    var layer = layui.layer;
+    var form = layui.form;
+});
+//添加菜单
+function menu_add(title,url,w,h){
+    x_admin_show(title,url,w,h);
+}
+//编辑菜单
+function menu_edit(title,url,w,h){
+    x_admin_show(title,url,w,h);
+}
+//删除菜单
+function menu_del(obj,id){
+    layer.confirm('确认要删除吗？',function(index){
+        $.ajax({
+            url:"{:url('Menu/del')}",
+            type:'post',
+            data:'id='+id,
+            success:function(res){
+                if(res.status){
+                    $(obj).parents("tr").remove();
+                    layer.msg('已删除!',{icon:1,time:1000});
+                }else{
+                    layer.msg(res.msg ? res.msg : "操作失败!", {icon: 5},function () {
+                        var index = layer.getFrameIndex(window.name);
+                        layer.close(index);
+                    });
+                    return false;
+                }
+            }
+        });
+    });
+}
+//页面导航标题内容
+$(function(){
+    $(window.parent.document).find('#right_title').text($('title').text());
+})
+</script>
+
+</body>
+</html>

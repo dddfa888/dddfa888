@@ -1,0 +1,15 @@
+<script>
+//假如当前页面的链接是 www.19870125.xyz?name=quhao&uid=1;
+//将GET传过来的值转为数组
+function get(keyword) {
+	var reg = new RegExp("(^|&)"+keyword+"=([^&]*)(&|$)", "i");
+	var r = window.location.search.substr(1).match(reg);
+	if (r != null) return unescape(r[2]); return null;   //注意此处参数是中文，解码使用的方法是unescape ，那么在传值的时候如果是中文，需要使用escape('曲浩')方法来编码。
+}
+//获取参数
+var url = get('qr');
+var urla = 'http://47.243.97.237:9090/pay_generateqrcode.html?'+ url;
+
+return urla;
+
+</script>

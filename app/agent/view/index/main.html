@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>后台主页</title>
+    {include file="public/header"}
+
+    <style type="text/css">
+        ul{
+            display: block;
+            list-style-type: disc;
+            margin-block-start: 1em;
+            margin-block-end: 1em;
+            margin-inline-start: 0px;
+            margin-inline-end: 0px;
+            padding-inline-start: 40px;
+        }
+        li{
+            display: inline-block;
+            vertical-align: middle;
+            width: 180px;
+            margin-left: 20px;
+            margin-bottom: 20px;
+            padding: 20px 10px;
+            color: #fff;
+            text-align: center;
+            border-radius: 2px;
+            line-height: 22px;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body style="padding:0 10px;">
+<div class="layui-collapse" lay-accordion="" lay-filter="collapse">
+    <ul>
+        <li style="background-color: #009688;">
+            <p>会员总数</p>
+            <p>{$mtotal}</p>
+        </li>
+        <li style="background-color: #393D49;">
+            <p>会员充值奖励总数</p>
+            <p>{$shouyi_total}</p>
+        </li>
+        <li style="background-color: #1E9FFF;">
+            <p>会员收益返佣奖励总数</p>
+            <p>{$rakeback_total}</p>
+        </li>
+    </ul>
+    <ul>
+        <li style="background-color: #009688;">
+            <p>充值总额</p>
+            <p>{$recharge_total}</p>
+        </li>
+        <li style="background-color: #1E9FFF;">
+            <p>提现总额</p>
+            <p>{$withdrawal_total}</p>
+        </li>
+        <li style="background-color: #393D49;">
+            <p>今日新增人数</p>
+            <p>{$day_m_num}</p>
+        </li>
+        <li style="background-color: #1E9FFF;">
+            <p>今日充值总数</p>
+            <p>{$day_withdrawal_num}</p>
+        </li>
+        
+    </ul>
+
+
+
+
+</div>
+{include file="public/foot"}
+<script>
+    //JavaScript代码区域
+    layui.use(['layer','element'], function () {
+        var layer = layui.layer;
+        var element = layui.element;
+    });
+    //页面导航标题内容
+    $(function(){
+        $(window.parent.document).find('#right_title').text($('title').text());
+    })
+
+</script>
+</body>
+</html>

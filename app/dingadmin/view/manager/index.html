@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>密码修改</title>
+    {include file="public/header"}
+</head>
+<body style="padding: 10px 10px 50px 10px;">
+    <div class="layui-container">
+        <form class="layui-form" action="" method="post" enctype="multipart/form-data" id="groupForm">
+            <div class="layui-form-item">
+                <label class="layui-form-label">账户名称</label>
+                <div class="layui-input-block">
+                    <input type="text" name="account" value="{$user_info.account?$user_info.account:''}" placeholder="请输入管理员账号" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">密码</label>
+                <div class="layui-input-block">
+                    <input type="text" name="password" value="" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <div class="layui-input-block">
+                    <button class="layui-btn" lay-submit lay-filter="formDemo">确定</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    
+
+
+{include file="public/foot"}
+<script>
+layui.use(['form','upload'], function(){
+    var form = layui.form;
+    var upload = layui.upload;
+    //监听提交
+    form.on('submit(formDemo)', function(data){
+        $.ajax({
+            url:"{:url('Manager/index')}",
+            type:"post",
+            data:$('#groupForm').serialize(),
+            success:function(res){
+                  if(res.status){
+                      layer.alert("操作成功", {icon: 6},function () {
+                          location.reload();
+                          var index = layer.getFrameIndex(window.name);
+                          layer.close(index);
+                      });
+                  }else{
+                      layer.msg(res.msg ? res.msg : "操作失败!", {icon: 5},function () {
+                          var index = layer.getFrameIndex(window.name);
+                          layer.close(index);
+                      });
+                      return false;
+                  }
+              }
+        });
+        return false;
+    })
+
+    //图片上传
+    upload.render({
+        elem: '#uploadimg',
+        url: '{:url("Config/uploadlogo")}',
+        accept:'images',//允许上传的文件类型
+        field:'imgfile',//文件域的字段名
+        size: 2048,     //最大允许上传的文件大小
+        before:function(){ //文件提交前的回调
+            var index = layer.load();
+        },
+        done: function(res, index, upload){ //上传后的回调
+            layer.close(layer.index,{isOutAnim:true});
+            setTimeout(function(){
+                layer.msg(res.msg);
+                if(res.code==1){
+                    var pic = $('input[name=web_logo]').val(res.img);
+                    if(pic){
+                        $('#logo').attr('src',res.img);
+                    }
+                }
+            },500);
+        },
+    })
+});
+
+$(function(){
+    $(window.parent.document).find('#right_title').text($('title').text());
+})
+</script>
+</body>
+</html>

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{$Think.lang.nt_notice}</title>
+    {include file="public/header"}
+    {include file="public/kefu"}
+    <style type="text/css">
+        .layui-form-item .ys{border: 1px #61be49 solid;border-radius: 0.5rem;height: 50px;line-height: 50px;}
+    </style>
+</head>
+<body>
+    <div class="header">
+        <span>{$Think.lang.nt_notice}</span>
+    </div>
+    <div class="back">
+        <a href="javascript:history.go(-1);"><i class="layui-icon">&#xe603;</i></a>
+    </div>
+
+    <div style="clear: both;"></div>
+
+    <div class="helpbox">
+        <ul>
+            {volist name="list" id="v"}
+            <a href="{:url('index/News/xiangqing',array('id'=>$v['id']))}">
+                <li>
+                    <img src="{$v.pic}">
+                    <p class="p1">{$v.title}</p>
+                    <p class="p2"><span>{$Think.lang.nt_reading}：<?php echo rand(1000,100000); ?></span></p>
+                </li>
+            </a>
+            {/volist}
+            <p class="p3">{$Think.lang.nt_no_data}</p>
+        </ul>
+    </div>
+
+    {include file="public/foot"}
+
+<script type="text/javascript">
+    layui.use(['layer','form'], function(){
+        var layer = layui.layer;
+        var form = layui.form;
+    });
+
+</script>
+</body>
+</html>

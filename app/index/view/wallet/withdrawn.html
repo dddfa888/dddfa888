@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{$Think.lang.wit_withdraw}</title>
+    {include file="public/header"}
+    {include file="public/kefu"}
+    <style type="text/css">
+
+    </style>
+</head>
+<body>
+<div class="header">
+    <span>{$Think.lang.wit_withdraw}</span>
+</div>
+<div class="back">
+    <a href="javascript:history.go(-1);"><i class="layui-icon">&#xe603;</i></a>
+</div>
+
+<div style="clear: both;"></div>
+
+<div class="my_withdrawn_top">
+    <span class="lf">{$Think.lang.wit_apply}</span>
+    <span class="lr"><a href="{:url('index/Wallet/withdrawnlog')}" style="color: #ddb4a5;">{$Think.lang.wit_record}</a></span>
+</div>
+<div style="clear: both;"></div>
+
+<div class="layui-container">
+    <form class="layui-form" id="groupForm">
+        <input type="hidden" name="type" value="1">
+        <input type="hidden" name="__token__" value="{:token()}"/>
+        <div class="layui-form-item">
+            <input type="text" name="money" placeholder="{$Think.lang.wit_money}" autocomplete="off"
+                   class="layui-input">
+        </div>
+        <!--            <input type="hidden" name="qudao" value="Ydpay" />-->
+        <!--            <div class="layui-form-item" style="display:block;">-->
+        <!--                <select name="qudao" lay-verify="required">-->
+        <!--                    <option value="">Por favor, seleccione</option>-->
+        <!--                    {volist name="tong" id="vo" key="k"}-->
+        <!--                    <option value="{$vo.mark}" {if $k eq 1} selected="selected" {/if}>{$vo.channel_name}</option>-->
+        <!--                    {/volist}-->
+        <!--                </select>-->
+        <!--            </div>-->
+
+        <div class="layui-form-item">
+            <p style="margin-left: 10px;color: #8f8f94;">{$Think.lang.wit_tips}：{$Think.lang.wit_fee}{$charge}%</p>
+        </div>
+
+        <div class="layui-form-item" style="text-align: center;">
+            <button class="layui-btn" lay-submit lay-filter="formDemo" id="sendbtn">{$Think.lang.wit_submit}</button>
+        </div>
+        <div style="color: #8f8f94;">
+            {$content|raw}
+        </div>
+    </form>
+</div>
+{include file="public/foot"}
+
+<script type="text/javascript">
+    layui.use(['layer', 'form'], function () {
+        var layer = layui.layer;
+        var form = layui.form;
+
+        //监听提交
+        form.on('submit(formDemo)', function (data) {
+
+            var money = $("input[name='money']").val();
+
+            if (money < 1) {
+                return
+            }
+
+            layer.confirm('{$Think.lang.cash_withdrawal. $Think.lang.zc_unit} ' + money, {
+                title: false,
+                btn: ['{$Think.lang.confirm}', '{$Think.lang.cancel}'],
+                yes: function (index) {
+                    $.ajax({
+                        url: '{:url("index/Wallet/withpost_api")}',
+                        type: "post",
+                        data: $('#groupForm').serialize(),
+                        success: function (res) {
+                            if (res.status) {
+                                // window.location.href = 'http://www.fgwhthjtnjg.top/index/Wallet/withpostfrom?order='+res.order;
+                                layer.msg(res.msg, {icon: 6}, function () {
+                                    if (res.status === 22) {
+                                        window.location.href = "/index/index/card";
+                                        return
+                                    }
+                                    location.reload();
+                                    var index = layer.getFrameIndex(window.name);
+                                    layer.close(index);
+                                });
+                            } else {
+                                layer.msg(res.msg, {icon: 5}, function () {
+                                    var index = layer.getFrameIndex(window.name);
+                                    layer.close(index);
+                                });
+                                return false;
+                            }
+                        }
+                    });
+                }
+            });
+
+
+            return false;
+        })
+    });
+
+</script>
+</body>
+</html>

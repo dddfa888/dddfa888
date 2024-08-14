@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>{$Think.lang.te_team}</title>
+	{include file="public/header"}
+	{include file="public/kefu"}
+	<style type="text/css">
+		.layui-form-item .ys{border: 1px #61be49 solid;border-radius: 0.5rem;height: 50px;line-height: 50px;}
+	</style>
+</head>
+<body>
+	<div class="header">
+		<span>{$Think.lang.te_team}</span>
+	</div>
+	<div class="back">
+		<a href="javascript:history.go(-1);"><i class="layui-icon">&#xe603;</i></a>
+	</div>
+	<div style="clear: both;"></div>
+
+	<div class="team">
+		<p>
+			<a href="{:url('index/Index/zhitui')}">{$Think.lang.te_direct_push}</a>
+		</p>
+		<a href="{:url('index/Index/feizhitui')}" >{$Think.lang.te_no_direct_push}</a>
+	</div>
+
+	<div class="teambox">
+		{volist name="list" id="v"}
+		<div class="libox">
+			<div class="lf">
+				<p>{$v.username}</p>
+				<a href="">{$Think.lang.te_congratulations}</a>
+			</div>
+			<div class="lr">
+				<p class="p1">{$Think.lang.te_his_earnings}</p>
+				<p class="p2">{$v.money}</p>
+			</div>
+			<!-- <a class="abtn" href="{:url('index/Index/feizhitui')}">他的下级</a> -->
+		</div>
+		{/volist}
+
+		
+	</div>
+
+	{include file="public/foot"}
+
+<script type="text/javascript">
+	layui.use(['layer','form'], function(){
+        var layer = layui.layer;
+        var form = layui.form;
+    });
+
+</script>
+</body>
+</html>

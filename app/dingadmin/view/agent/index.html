@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>业务员管理</title>
+    {include file="public/header"}
+</head>
+<body style="padding: 10px 10px 80px 10px;">
+    <div class="layui-container">
+        <div class="ibox-title">
+                <div class="row">
+                    <div>
+                        <a href="javascript:;" class="layui-btn layui-btn-small" onclick="admin_add('添加业务员','{:url('agent/add')}',540,440)">添加业务员</a>
+                    </div>
+                </div>
+            </div>
+        <table class="layui-table">
+            <thead>
+                <tr>
+
+                    <th>业务员账号</th>
+                    <th>所属角色</th>
+                    <th>添加时间</th>
+                    <th>邀请码</th>
+                    <th>客服号码</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                {volist name="list" id="vo"}
+                <tr>
+                    <td>{$vo.account}</td>
+                    <td>{$vo.title}</td>
+                    <td>{$vo.login_time|date='Y-m-d H:i:s'}</td>
+                    <th>{$vo.code}</th>
+                    <th>{$vo.server_code}</th>
+                    <td>
+                        <a href="javascript:;" class="layui-btn layui-btn-sm" onclick="admin_edit('编辑业务员','{:url('agent/edit',['id'=>$vo['id']])}',540,440)">编辑</a>
+                        <a href="javascript:;" class="layui-btn layui-btn-sm layui-btn-danger" onclick="admin_del(this,'{$vo['id']}')">删除</a>
+                    </td>
+                </tr>
+                {/volist}
+            </tbody>
+        </table>
+        <div style="text-align: right;">{$page}</div>
+    </div>
+    
+
+{include file="public/foot"}
+<script>
+layui.use(['layer','form'], function(){
+    var layer = layui.layer;
+    var form = layui.form;
+});
+/*管理员-添加*/
+function admin_add(title,url,w,h) {
+    x_admin_show(title,url,w,h);
+}
+/*管理员-编辑*/
+function admin_edit(title,url,w,h) {
+    x_admin_show(title,url,w,h);
+}
+/*管理员-删除*/
+function admin_del(obj,id) {
+    layer.confirm('确认要删除吗？',function(index){
+        $.ajax({
+            url:"{:url('agent/del')}",
+            type:'post',
+            data:'id='+id,
+            success:function(res){
+                if(res.status){
+                    $(obj).parents("tr").remove();
+                    layer.msg('已删除!',{icon:1,time:1000});
+                }
+            }
+        });
+    });
+}
+//页面导航标题内容
+$(function(){
+    $(window.parent.document).find('#right_title').text($('title').text());
+})
+
+</script>
+</body>
+</html>

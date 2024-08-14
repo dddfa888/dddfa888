@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>文件编辑</title>
+	<link rel="stylesheet" href="__admin__/vendor/layui/css/layui.css">
+	<script type="text/javascript" src="__admin__/vendor/codemirror/lib/codemirror.js"></script>
+	<link rel="stylesheet" type="text/css" href="__admin__/vendor/codemirror/lib/codemirror.css">
+	<link rel="stylesheet" type="text/css" href="__admin__/vendor/codemirror/theme/eclipse.css">
+	<style type="text/css">
+		form{margin: 10px 15px;}
+		.CodeMirror{border:1px solid #EEE;height: 500px;}
+	</style>
+
+</head>
+<body style="padding:15px;">
+<form class="layui-form" action="" method="post">
+	<div class="layui-form-item">
+		<button class="layui-btn">保存</button> 
+		<a class="layui-btn layui-btn-primary" href="javascript:window.history.back();">返回</a>
+		<span class="layui-btn layui-btn-danger">当前编辑的文件:{$currfile}</span>
+	</div>
+	<textarea name="code" id="code" placeholder="请输入内容" style="height: 550px;" class="layui-textarea code">{$code}</textarea>
+</form>
+
+<script src="__admin__/vendor/js/jquery.js"></script>
+<script src="__admin__/vendor/layui/layui.js"></script>
+<script src="__admin__/vendor/codemirror/mode/htmlmixed/htmlmixed.js"></script>
+<script src="__admin__/vendor/codemirror/mode/css/css.js"></script>
+<script src="__admin__/vendor/codemirror/mode/javascript/javascript.js"></script>
+<script src="__admin__/vendor/codemirror/mode/php/php.js"></script>
+<script src="__admin__/vendor/codemirror/mode/xml/xml.js"></script>
+<script src="__admin__/vendor/codemirror/mode/clike/clike.js"></script>
+<script>
+var myCode = CodeMirror.fromTextArea(document.getElementById('code'),{
+	lineNumbers:true,
+	theme:"eclipse"
+});
+var mode = "";
+switch("{$exc}"){
+	case ".PHP":
+		mode = "php";
+		break;
+	case ".HTML":
+		mode = "htmlmixed";
+		break;
+	case ".CSS":
+		mode = "css";
+		break;
+	case ".JS":
+		mode = "javascript";
+		break;
+	case ".XML":
+		mode = "xml";
+		break;
+	default:
+		mode = "php";
+		break;
+}
+myCode.setOption('mode',mode);
+$(function(){
+	$(window.parent.document).find('#right_title').text($('title').text());
+})
+</script>
+</body>
+</html>

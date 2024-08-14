@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{$Think.lang.yh_bankcard}</title>
+    {include file="public/header"}
+    {include file="public/kefu"}
+    <style type="text/css">
+        ul {
+            list-style-type: none;
+            padding-left: 5px;
+            margin-bottom: -2px
+        }
+
+        .tab {
+            width: 500px;
+            margin: 10px auto
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        .title li {
+            display: inline-block;
+            border: 1px solid #999;
+            border-bottom: 2px solid #a00;
+            background: #fff;
+            text-align: center;
+            width: 300px;
+            height: 30px;
+            margin: 0 1px;
+            line-height: 30px
+        }
+
+        .title .active {
+            border-top: 2px solid #a00;
+            border-bottom: 2px solid #fff;
+        }
+
+        #content {
+            margin: 0;
+            border: 1px solid #ccc;
+            border-top: 2px solid #a00;
+            width: 300px
+        }
+
+        #content div {
+            display: none;
+            padding: 10px 0
+        }
+
+        #content .mod {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+<div class="header">
+    <span>{$Think.lang.yh_bankcard}</span>
+</div>
+<div class="back">
+    <a href="javascript:history.go(-1);"><i class="layui-icon">&#xe603;</i></a>
+</div>
+<div style="clear: both;"></div>
+<div class="layui-container" style="min-height: 600px;">
+    <form class="layui-form" id="groupForm">
+        <div class="mod">
+
+<!--            <div class="layui-form-item">-->
+<!--                <label class="layui-form-label">选择银行</label>-->
+<!--                <div class="layui-input-block">-->
+<!--                    <select name="bankCode" lay-verify="required">-->
+<!--                        <option {eq name="list.bankCode" value="1" } selected {-->
+<!--                        /eq} value="1">Garanti Bankası</option>-->
+<!--                        <option {eq name="list.bankCode" value="2" } selected {-->
+<!--                        /eq} value="2">Akbank</option>-->
+<!--                        <option {eq name="list.bankCode" value="3" } selected {-->
+<!--                        /eq} value="3">DenizBank</option>-->
+<!--                        <option {eq name="list.bankCode" value="4" } selected {-->
+<!--                        /eq} value="4">FinansBank</option>-->
+<!--                        <option {eq name="list.bankCode" value="5" } selected {-->
+<!--                        /eq} value="5">İş Bankası</option>-->
+<!--                        <option {eq name="list.bankCode" value="7" } selected {-->
+<!--                        /eq} value="7">Teb</option>-->
+<!--                        <option {eq name="list.bankCode" value="9" } selected {-->
+<!--                        /eq} value="9">Vakıfbank</option>-->
+<!--                        <option {eq name="list.bankCode" value="11" } selected {-->
+<!--                        /eq} value="11">Yapı Kredi</option>-->
+<!--                        <option {eq name="list.bankCode" value="13" } selected {-->
+<!--                        /eq} value="13">Ziraat Bankası</option>-->
+<!--                        <option {eq name="list.bankCode" value="15" } selected {-->
+<!--                        /eq} value="15">ing Bank</option>-->
+<!--                        <option {eq name="list.bankCode" value="17" } selected {-->
+<!--                        /eq} value="17">Şekerbank</option>-->
+<!--                        <option {eq name="list.bankCode" value="19" } selected {-->
+<!--                        /eq} value="19">KuveytTürk</option>-->
+<!--                        <option {eq name="list.bankCode" value="23" } selected {-->
+<!--                        /eq} value="23">Pttbank</option>-->
+<!--                        <option {eq name="list.bankCode" value="25" } selected {-->
+<!--                        /eq} value="25">Türkiye Finans</option>-->
+<!--                        <option {eq name="list.bankCode" value="27" } selected {-->
+<!--                        /eq} value="27">Halkbank</option>-->
+<!--                        <option {eq name="list.bankCode" value="29" } selected {-->
+<!--                        /eq} value="29">OdeaBank</option>-->
+<!--                        <option {eq name="list.bankCode" value="30" } selected {-->
+<!--                        /eq} value="30">Albaraka Türk</option>-->
+<!--                        <option {eq name="list.bankCode" value="31" } selected {-->
+<!--                        /eq} value="31">Papara</option>-->
+<!--                        <option {eq name="list.bankCode" value="32" } selected {-->
+<!--                        /eq} value="32">Enpara</option>-->
+<!--                        <option {eq name="list.bankCode" value="33" } selected {-->
+<!--                        /eq} value="33">Aktifbank</option>-->
+<!--                    </select>-->
+<!--                </div>-->
+<!--            </div>-->
+
+
+<!--            <div class="layui-form-item">-->
+<!--                <input type="text" name="bank_name" placeholder="{:lang('bank_name')}"-->
+<!--                       value="{$list.bank_name?$list.bank_name:''}" autocomplete="off"-->
+<!--                       class="layui-input">-->
+<!--            </div>-->
+
+
+<!--            <div class="layui-form-item">-->
+<!--                <input type="text" name="receiver_telephone" placeholder="{:lang('receiver_telephone')}"-->
+<!--                       value="{$list.receiver_telephone?$list.receiver_telephone:''}" autocomplete="off"-->
+<!--                       class="layui-input">-->
+<!--            </div>-->
+
+            <!--收款人姓名-->
+            <div class="layui-form-item">
+                <input type="text" name="account_name" placeholder="{:lang('account_name')}"
+                       value="{$list.account_name?$list.account_name:''}"
+                       autocomplete="off" class="layui-input">
+            </div>
+
+            <!--收款卡号-->
+            <div class="layui-form-item">
+                <input type="text" name="account_no" placeholder="{:lang('account_no')}"
+                       value="{$list.account_no?$list.account_no:''}" autocomplete="off"
+                       class="layui-input">
+            </div>
+
+            <!--      <div class="layui-form-item">-->
+            <!--        <input type="text" name="ifsc" placeholder="{:lang('ifsc')}" value="{$list.ifsc?$list.ifsc:''}" autocomplete="off"-->
+            <!--               class="layui-input">-->
+            <!--      </div>-->
+
+
+        </div>
+        <div class="layui-form-item " style="text-align: center;margin-top: 60px">
+            <a href="javascript:;" class="layui-btn" lay-submit lay-filter="formDemo" id="sendbtn">{$Think.lang.yh_submit}</a>
+        </div>
+    </form>
+</div>
+
+{include file="public/foot"}
+
+<script type="text/javascript">
+    layui.use(['layer', 'form', 'laydate'], function () {
+        var layer = layui.layer;
+        var form = layui.form;
+        var laydate = layui.laydate;
+        laydate.render({
+            elem: '#date', //指定元素
+            lang: 'en',
+            value: "{$list.birth_date?$list.birth_date:''}"
+        });
+        form.on('submit(formDemo)', function (data) {
+            $.ajax({
+                url: "{:url('index/index/addcardpost')}",
+                type: "post",
+                data: $('#groupForm').serialize(),
+                success: function (res) {
+                    if (res.status) {
+                        layer.msg(res.msg, {icon: 6}, function () {
+                            location.reload();
+                            var index = layer.getFrameIndex(window.name);
+                            layer.close(index);
+                        });
+                    } else {
+                        layer.msg(res.msg, {icon: 5}, function () {
+                            var index = layer.getFrameIndex(window.name);
+                            layer.close(index);
+                        });
+                        return false;
+                    }
+                }
+            });
+            return false;
+        })
+
+    });
+
+
+    $(function () {
+        $(".title li").click(function () {
+            $(this).addClass("active").siblings().removeClass("active");
+            $(".mod").eq($(".title li").index(this)).show().siblings(".mod").hide();
+        });
+    });
+</script>
+</body>
+</html>

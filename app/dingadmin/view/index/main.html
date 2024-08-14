@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>网站配置</title>
+	{include file="public/header"}
+	<style>
+		.layui-col-md4 {
+			height: 100px;
+		}
+		
+		.d-flex {
+			display: flex;
+		}
+		
+		.flex-column{ flex-direction: column; }
+		
+		.a-center {
+			align-items: center;
+		}
+		
+		.j-center {
+			justify-content: center;
+		}
+		.mt-5{margin-top: 5px}
+		.ml-20{margin-left: 20px}
+		.font-16{
+			font-size: 16px;
+		}
+	</style>
+</head>
+<body style="padding:0 10px;">
+<div class="layui-collapse" lay-accordion="" lay-filter="collapse">
+	<div class="layui-row" style="text-align: center">
+		<div class="layui-col-md4 d-flex j-center a-center layui-bg-red flex-column">
+			<h2>会员总数 {$register.count}</h2>
+			<div class="font-16 mt-5">
+				<span>今日注册  {$register.today}</span> <span class="ml-20">昨日注册  {$register.yesterday}</span>
+			</div>
+		</div>
+		
+		<div class="layui-col-md4 d-flex j-center a-center layui-bg-green flex-column">
+				<h2>入金总额  {$rujin.sum}</h2>
+			<div class="font-16 mt-5">
+				<span>今日入金  {$rujin.today}</span> <span class="ml-20">昨日入金  {$rujin.yesterday}</span>
+			</div>
+		</div>
+		<div class="layui-col-md4 d-flex j-center a-center layui-bg-orange flex-column">
+			<h2>出金总额  {$chujin.sum}</h2>
+			<div class="font-16 mt-5">
+				<span>今日出金  {$chujin.today}</span> <span class="ml-20">昨日出金  {$chujin.yesterday}</span>
+			</div>
+		</div>
+
+
+    <div class="layui-col-md4 d-flex j-center a-center layui-bg-blue flex-column">
+      <h2>实际入金总额  {$statistical.into_amount}</h2>
+    </div>
+
+
+    <div class="layui-col-md4 d-flex j-center a-center layui-bg-yellow flex-column">
+      <h2>实际出金总额  {$statistical.out_amount}</h2>
+    </div>
+
+
+    <div class="layui-col-md4 d-flex j-center a-center layui-bg-red flex-column">
+      <h2>实际总余额  {$statistical.actual_amount}</h2>
+    </div>
+
+    <div class="layui-col-md4 d-flex j-center a-center layui-bg-yellow flex-column">
+      <h2>昨日新增首充人数  {$statistical.recharge_count_oo}</h2>
+    </div>
+
+    <div class="layui-col-md4 d-flex j-center a-center layui-bg-blue flex-column">
+      <h2>昨日总充值人数  {$statistical.recharge_count}</h2>
+    </div>
+
+
+
+
+	
+	</div>
+	<div class="layui-colla-item">
+		<h2 class="layui-colla-title">软件信息</h2>
+		<div class="layui-colla-content layui-show">
+			<table class="layui-table">
+				<tr>
+					<td width="40%">软件名称</td>
+					<td width="60%">p2p系统</td>
+				</tr>
+				<tr>
+					<td>系统版本</td>
+					<td>v1.0.1</td>
+				</tr>
+			
+			
+			</table>
+		</div>
+	</div>
+	<div class="layui-colla-item">
+		<h2 class="layui-colla-title">服务器信息</h2>
+		<div class="layui-colla-content">
+			<table class="layui-table">
+				<tr>
+					<td width="40%">服务器IP</td>
+					<td width="60%">{$system.ip}</td>
+				</tr>
+				<tr>
+					<td>服务器域名</td>
+					<td>{$system.host}</td>
+				</tr>
+				<tr>
+					<td>服务器操作系统</td>
+					<td>{$system.os}</td>
+				</tr>
+				<tr>
+					<td>运行环境</td>
+					<td>{$system.server}</td>
+				</tr>
+				<tr>
+					<td>服务器端口</td>
+					<td>{$system.port}</td>
+				</tr>
+				<tr>
+					<td>PHP版本</td>
+					<td>{$system.php_ver}</td>
+				</tr>
+			</table>
+		</div>
+	</div>
+	<div class="layui-colla-item">
+		<h2 class="layui-colla-title">数据库信息</h2>
+		<div class="layui-colla-content">
+			<table class="layui-table">
+				<tr>
+					<td width="40%">数据库版本</td>
+					<td width="60%">{$system.mysql_ver}</td>
+				</tr>
+				<tr>
+					<td>数据库名称</td>
+					<td>{$system.database}</td>
+				</tr>
+			</table>
+		</div>
+	</div>
+	<div class="layui-colla-item">
+		<h2 class="layui-colla-title">管理员登录日志</h2>
+		<div class="layui-colla-content">
+			<table class="layui-table">
+				<tr>
+					<td>登录时间</td>
+					<td>登录IP</td>
+					<td>登录信息</td>
+				</tr>
+				{volist name="log" id="vo"}
+				<tr>
+					<td>{$vo.logintime|date="Y/m/d H:i:s"}</td>
+					<td>{$vo.login_ip}</td>
+					<td>{$vo.login_address}</td>
+				</tr>
+				{/volist}
+			</table>
+		</div>
+	</div>
+</div>
+{include file="public/foot"}
+<script>
+	//JavaScript代码区域
+	layui.use(['layer', 'element'], function () {
+		var layer = layui.layer;
+		var element = layui.element;
+		
+		//监听折叠
+		element.on('collapse(collapse)', function (data) {
+			// layer.msg('展开状态：'+ data.show);
+		});
+		
+		// you code ...
+		
+		
+	});
+</script>
+</body>
+</html>

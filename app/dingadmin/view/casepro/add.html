@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>案例添加</title>
+    {include file="public/header"}
+</head>
+<body style="padding: 0px 10px;padding-bottom: 45px;" enctype="multipart/form-data">
+
+    <form class="layui-form" action="" method="post" id="groupForm">
+        <div class="layui-tab-content">
+            <div class="layui-form-item">
+                <label class="layui-form-label">项目名称</label>
+                <div class="layui-input-block">
+                    <input type="text" name="proname" required lay-verify="required" placeholder="请输入项目名称" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label">项目说明</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="aid" placeholder="请输入项目文章ID" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+
+
+            <div class="layui-form-item">
+                <label class="layui-form-label">发客户信息</label>
+                <div class="layui-input-block">
+                    <textarea name="info" style="height: 400px;" placeholder="请输入账户信息" class="layui-textarea">前台地址：账号：密码：后台地址：账号：密码：下载地址：账号：密码：
+                    </textarea>
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label">宝塔信息</label>
+                <div class="layui-input-block">
+                    <textarea name="baota" placeholder="请输入宝塔信息" class="layui-textarea">地址：账号：密码：</textarea>
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label">备注说明</label>
+                <div class="layui-input-block">
+                    <textarea name="remarks" placeholder="请输入备注说明信息" class="layui-textarea"></textarea>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-input-block">
+                    <button class="layui-btn" lay-submit lay-filter="formDemo">添加</button>
+                </div>
+            </div>
+        </div>
+        
+    </form>
+
+
+    
+
+<!-- 百度编辑器配置文件 -->
+
+{include file="public/foot"}
+
+<script>
+//监听提交
+layui.use(['form','upload','laydate'], function(){
+    var form = layui.form;
+    var upload = layui.upload;
+    var laydate = layui.laydate;
+    //监听提交
+    form.on('submit(formDemo)', function(data){
+        $.ajax({
+            url:"{:url('Casepro/add')}",
+            type:"post",
+            data:$('#groupForm').serialize(),
+            success:function(res){
+                  if(res.status){
+                      layer.alert("操作成功", {icon: 6},function () {
+                          parent.location.reload();
+                          var index = parent.layer.getFrameIndex(window.name);
+                          parent.layer.close(index);
+                      });
+                  }else{
+                      layer.msg(res.msg ? res.msg : "操作失败!", {icon: 5},function () {
+                          var index = parent.layer.getFrameIndex(window.name);
+                          parent.layer.close(index);
+                      });
+                      return false;
+                  }
+              }
+        });
+        return false;
+    })
+
+    //日期范围选择
+    laydate.render({ 
+        elem: '#end_time',
+        type: 'date' 
+    });
+
+
+
+
+});
+//导航标题
+$(function(){
+    $(window.parent.document).find('#right_title').text($('title').text());
+});
+
+
+</script>
+</body>
+</html>

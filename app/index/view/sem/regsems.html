@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    {include file="public/header"}
+    <style type="text/css">
+
+        .layui-input{border-radius: 10px;height: 42px;font-size: 16px;padding-left: 40px;}
+        .layui-form-item{text-align: center;}
+        .layui-btn{width: 88%;border-radius: 3rem;line-height: 3.4rem;border: 2px #fff solid;height: 3.4rem;font-size: 16px;}
+        .login{background-color: #fff;}
+        .login span{color: #fc5d03;}
+        .reg{background-color: #3FDADC;color: #fff;border: 1}
+        .yzm{position: absolute;top:0;right: 0;height: 42px;width: 30%;border-radius: 10px;border:1px solid #fff;color: #fff;background: #3FDADC;}
+    </style>
+</head>
+<body style="background-color: #3FDADC;">
+<div class="layui-container">
+    <div class="login_logo" style="padding-bottom: 20px;">
+        <div class="imgbox"><img src="{$logo}"></div>
+    </div>
+    <div class="login_form">
+
+        <input type="hidden"  name="parent"  id="parent"  value="{$d_key}">
+        <div>
+            <div class="layui-form-item" style="position: relative">
+                <span style="position: absolute;left:8px;top:12px;font-size: 16px;color:#aaa" >+{:config('app.country')}</span>
+                <input type="text" class="layui-input" id="mobile" name="mobile" placeholder="{$Think.lang.yq_phone_number}">
+            </div>
+            <div class="layui-form-item">
+                <input type="text" class="layui-input" id="password" name="password" placeholder="{$Think.lang.yq_password}">
+            </div>
+            <div class="layui-form-item">
+                <input type="text" class="layui-input" id="parent_code" value="{$parent_code}" name="parent_code" placeholder="{$Think.lang.fx_invite_code}">
+            </div>
+        </div>
+        <div style="padding-top: 40px;">
+            <div class="layui-form-item">
+                <a class="layui-btn login" id="loginBtn" href="javascript:;"><span>{$Think.lang.dl_register}</span></a>
+            </div>
+            <div class="layui-form-item">
+<!--                <a class="layui-btn login" href="{$url}"><span>{$Think.lang.App_download}</span></a>-->
+            </div>
+        </div>
+
+    </div>
+</div>
+<script type="text/javascript">
+    // 短信验证码
+    $('#yzm').on('click',function(){
+        var phone = $('input[name="mobile"]').val();
+        var reg =/^[0-9]+.?[0-9]*$/;
+        if(!reg.test(phone)){
+            layer.msg('Please input the correct mobile phone number');
+            return false;
+        }
+        if(!phone){
+            layer.msg('O número de telefone não Pode ESTAR vazio');
+            return false;
+        }
+        $.ajax({
+            'type':'post',
+            'url':'{:url("login/code")}',
+            'data':{'phone':phone},
+            success:function(res){
+                if (res.status==1) {
+                    layer.msg(res.msg);
+                    codetime();
+                }else{
+                    layer.msg(res.msg);
+                }
+            }
+        });
+    })
+    //验证码倒计时
+    var btn = $("#yzm");
+    var wait = 60;
+    function codetime(){
+        if (wait == 0) {
+            document.getElementById("yzm").disabled=false;
+            btn.html('{$Think.lang.dl_get}');
+            wait = 60;
+        }else{
+            document.getElementById("yzm").disabled=true;
+            btn.html(wait+'s');
+            wait--;
+            setTimeout(function(){
+                codetime();
+            },1000);
+        }
+    }
+
+
+    layui.use(['layer','form'], function(){
+        var layer = layui.layer;
+        var form = layui.form;
+        //登录操作
+        $("#loginBtn").click(function(){
+            var mobile = $("#mobile").val();
+
+            var reg =/^[0-9]+.?[0-9]*$/;
+            if(!reg.test(mobile)){
+                layer.msg('Please input the correct mobile phone number');
+                return false;
+            }
+
+            var password = $("#password").val();
+            var parent = $("#parent").val();
+            var parent_code = $("#parent_code").val();
+            var code = $("#code").val();
+
+            
+            
+            $.ajax({
+                type:'post',
+                url:'{:url("index/sem/regsempost")}',
+                data:{mobile:mobile,password:password,parent:parent,parent_code:parent_code,code:code},
+                dataType:'json',
+                success:function(res){
+                    if (res.status) {
+                        setTimeout(function(){
+                            location.href = '{:url("index/login/index")}';
+                        },1000);
+                        layer.msg(res.msg);
+                    }else{
+                        layer.msg(res.msg, {icon: 5});
+                        return false;
+                    }
+                }
+            });
+        });
+    });
+
+</script>
+</body>
+</html>

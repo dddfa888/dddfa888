@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>会员充值</title>
+    {include file="public/header"}
+</head>
+<body style="padding: 10px 10px 80px 10px;">
+    <form class="layui-form" action="" method="post">
+    
+    <div class="">
+        <form class="layui-form" action="" method="get" autocomplete="off">
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <div class="layui-input-inline">
+                        <input type="text" name="username" autocomplete="off" placeholder="会员账号" class="layui-input" value="{$username}">
+                    </div>
+
+                    <div class="layui-input-inline">
+                        <button ype="submit" class="layui-btn">搜索</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+
+        <table class="layui-table" lay-size="sm">
+            <thead>
+                <tr pid="0">
+                    <th>会员账号</th>
+                    <th>充值时间</th>
+                    <th>奖励金额</th>
+                </tr> 
+            </thead>
+            <tbody>
+                {volist name="list" id="vo" key="k"}
+                <tr>
+                    <td>{$vo.username}</td>
+                    <td>{$vo.addtime|date='Y-m-d'}</td>
+                    <td>{$vo.adds}</td>
+                </tr>
+                {/volist}
+
+            </tbody>
+        </table>
+        <div style="text-align: right;">{$page|raw}</div>
+        
+    </div>
+    </form>
+    
+
+{include file="public/foot"}
+<script>
+//删除提示
+layui.use(['layer','form'], function(){
+    var layer = layui.layer;
+    var form = layui.form;
+});
+
+/*添加*/
+function admin_add(title,url,w,h) {
+    x_admin_show(title,url,w,h);
+}
+/*编辑*/
+function admin_edit(title,url,w,h) {
+    x_admin_show(title,url,w,h);
+}
+
+//页面导航标题内容
+$(function(){
+    $(window.parent.document).find('#right_title').text($('title').text());
+})
+
+</script>
+</body>
+</html>

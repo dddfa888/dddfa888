@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{$Think.lang.tx_record}</title>
+    {include file="public/header"}
+    {include file="public/kefu"}
+    <style type="text/css">
+        
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <span>{$Think.lang.tx_record}</span>
+    </div>
+    <div class="back">
+        <a href="javascript:history.go(-1);"><i class="layui-icon">&#xe603;</i></a>
+    </div>
+
+    <div style="clear: both;"></div>
+
+    <div class="tixianlog">
+        <p class="p1">{$Think.lang.tx_success}({$Think.lang.tx_cny})</p>
+        <p class="p2">{$Think.lang.tx_unit}{$tixian_sum}</p>
+        <p class="p3">{$Think.lang.tx_wait}:{$no_tixian_sum}</p>
+    </div>
+
+    <div class="tixianlogbox">
+        <ul>
+            {volist name="list" id="v"}
+            <li>
+                <p class="p1">{$Think.lang.tx_balance}<span>{$Think.lang.tx_unit}{$v.payment}</span></p>
+                <p class="p2">{if $v.status eq 0} {$Think.lang.tx_not_examine} {elseif $v.status eq 1} {$Think.lang.tx_ok_examine} {else/} {$Think.lang.tx_refuse} {/if}<span>{$Think.lang.tx_charge}{$Think.lang.tx_unit}{$v.charge}</span></p>
+            </li>
+            {/volist}
+        </ul>
+    </div>
+
+    {include file="public/foot"}
+
+<script type="text/javascript">
+    layui.use(['layer','form'], function(){
+        var layer = layui.layer;
+        var form = layui.form;
+    });
+    //登录操作
+    $("#sendbtn").click(function(){
+        var account = $("#username").val();
+        var password = $("#password").val();
+        $.ajax({
+            type:'post',
+            url:'{:url("index/Login/index")}',
+            data:{account:account,password:password},
+            dataType:'json',
+            success:function(res){
+                if (!res.status) {
+                    setTimeout(function(){
+                        location.href = res.url;
+                    },1000);
+                    layer.msg(res.msg);
+                }else{
+                    layer.msg(res.msg, {icon: 5});
+                    return false;
+                }
+            }
+        });
+    });
+</script>
+</body>
+</html>

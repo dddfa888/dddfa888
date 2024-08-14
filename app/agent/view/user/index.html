@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>账号列表</title>
+    {include file="public/header"}
+</head>
+<body style="padding: 10px 10px 80px 10px;">
+    <form class="layui-form" action="" method="post">
+    
+    <div class="">
+        <form class="layui-form" action="" method="get" autocomplete="off">
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <div class="layui-input-inline">
+                        <input type="text" name="username" autocomplete="off" placeholder="会员账号" class="layui-input" value="{$username}">
+                    </div>
+
+                    <div class="layui-input-inline">
+                        <button ype="submit" class="layui-btn">搜索</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+
+        <table class="layui-table" lay-size="sm">
+            <thead>
+                <tr pid="0">
+                    <th style="text-align: center;">序号</th>
+                    <th>会员账号</th>
+                    <th>会员等级</th>
+                    <th>手机号码</th>
+                    <th>推荐人</th>
+                    <th>直推人数</th>
+                    <th>注册时间</th>
+                    <th>最后登陆时间</th>
+                    <th>状态</th>
+                </tr> 
+            </thead>
+            <tbody>
+                {volist name="list" id="vo" key="k"}
+                <tr>
+                    <td style="text-align: center;">{$k}</td>
+                    <td>{$vo.username}</td>
+                    <td>{$vo.lv_name}</td>
+                    <td>{$vo.phone}</td>
+                    <td>{$vo.parent}</td>
+                    <td>{$vo.parentcount}</td>
+                    <td>{$vo.reg_time|date='Y-m-d'}</td>
+                    <td>{$vo.online_time|date='Y-m-d'}</td>
+                    <td>{if $vo.lock eq 1}正常{else/}禁止{/if}</td>
+                </tr>
+                {/volist}
+
+            </tbody>
+        </table>
+        <div style="text-align: right;">{$page|raw}</div>
+        
+    </div>
+    </form>
+    
+
+{include file="public/foot"}
+<script>
+//删除提示
+layui.use(['layer','form'], function(){
+    var layer = layui.layer;
+    var form = layui.form;
+});
+
+/*添加*/
+function admin_add(title,url,w,h) {
+    x_admin_show(title,url,w,h);
+}
+/*编辑*/
+function admin_edit(title,url,w,h) {
+    x_admin_show(title,url,w,h);
+}
+
+//页面导航标题内容
+$(function(){
+    $(window.parent.document).find('#right_title').text($('title').text());
+})
+
+</script>
+</body>
+</html>

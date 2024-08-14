@@ -1,0 +1,86 @@
+
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>角色配置</title>
+  {include file="public/header"}
+</head>
+<body>
+
+  <div class="layui-container">
+    <div class="ibox-title">
+        <div class="row">
+            <div>
+                <a href="javascript:;" class="layui-btn layui-btn-small" onclick="group_add('添加角色','{:url('Auth/add')}',540,240)">添加角色</a>
+            </div>
+        </div>
+    </div>
+    <table class="layui-table">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>角色名称</th>
+                <th>权限列表</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            {volist name="list" id="vo"}
+            <tr>
+                <td>{$vo.id}</td>
+                <td>{$vo.title}</td>
+                <td><a href="{:url('auth/rule',['roleid' => $vo['id']])}" class="layui-btn layui-btn-sm">查看</a></td>
+                <td>
+                    <a href="{:url('auth/rule',['roleid' => $vo['id']])}" class="layui-btn layui-btn-sm">权限分配</a>
+                    <a href="javascript:;" class="layui-btn layui-btn-sm" onclick="group_edit('编辑角色','{:url('Auth/edit',['id'=>$vo['id']])}',540,240)">编辑</a>
+                    <a href="javascript:;" class="layui-btn layui-btn-sm layui-btn-danger" onclick="group_del(this,'{$vo['id']}')">删除</a>
+                </td>
+            </tr>
+            {/volist}
+
+
+        </tbody>
+    </table>
+    <div style="text-align: right;"></div>
+  </div>
+
+{include file="public/foot"}
+<script>
+layui.use(['layer','form'], function(){
+    var layer = layui.layer;
+    var form = layui.form;
+})
+/*用户组-添加*/
+function group_add(title,url,w,h) {
+    x_admin_show(title,url,w,h);
+}
+/*用户组-编辑*/
+function group_edit(title,url,w,h) {
+    x_admin_show(title,url,w,h);
+}
+/*用户组-删除*/
+function group_del(obj,id) {
+    layer.confirm('确认要删除吗？',function(index){
+        $.ajax({
+            url:"{:url('Auth/del')}",
+            type:'post',
+            data:'id='+id,
+            success:function(res){
+                if(res.status){
+                    $(obj).parents("tr").remove();
+                    layer.msg('已删除!',{icon:1,time:1000});
+                }
+            }
+        });
+    });
+}
+//页面导航标题内容
+$(function(){
+    $(window.parent.document).find('#right_title').text($('title').text());
+})
+</script>
+
+</body>
+</html>

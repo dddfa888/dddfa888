@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no,viewport-fit=cover">
+  <title>{$Think.lang.lang}</title>
+  <!--    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vant@2.12/lib/index.css"/>-->
+  <link rel="stylesheet" href="/public/vant212/vant.css"/>
+</head>
+<body>
+<div id="app">
+  <van-nav-bar title="{$Think.lang.lang}" left-text="{$Think.lang.back}" left-arrow @click-left="onClickLeft">
+  </van-nav-bar>
+  <van-cell-group>
+    <van-cell icon="other-pay" title="Turkey" url="/index/user/lang_set?lang=en-teq" is-link></van-cell>
+    <van-cell icon="other-pay" title="English" url="/index/user/lang_set?lang=en-ua" is-link></van-cell>
+  </van-cell-group>
+</div>
+<!-- 引入 Vue 和 Vant 的 JS s文件 -->
+<script src="/public/vue26/vue.min.js"></script>
+<script src="/public/vant212/vant.min.js"></script>
+<script type="text/javascript">
+  var vm = new Vue({
+    el: '#app',
+    data: {},
+    methods: {
+      details: function () {
+      },
+      onClickLeft() {
+        window.history.go(-1);
+      },
+    }
+  })
+</script>
+</body>
+</html>

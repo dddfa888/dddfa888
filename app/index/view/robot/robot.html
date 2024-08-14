@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{$Think.lang.purchased}</title>
+    {include file="public/header"}
+    {include file="public/kefu"}
+    <style type="text/css">
+        .kbox{text-align: center;padding-top: 15rem; }
+        .kbox span{border: 1px solid #fff;height: 3rem;line-height: 3rem;border-radius: 0.5rem;padding: 1rem;background-color: #009688;color: #fff;}
+    </style>
+    
+</head>
+<body>
+
+    <!-- 产品内容 -->
+    <div class="layui-container" style="padding-bottom: 8rem;">
+        {if $orders}
+            {volist name="orders" id="v"}
+            <div class="orderbox" style="padding-top: 1rem;">
+                <div class="order_tr1">
+                    <span>{$Think.lang.yg_sell}</span>
+                </div>
+                <div style="clear: both;"></div>
+                <div class="order_tr2">
+                    <div class="lf">
+                        <p class="p1">{$v.day_income}</p>
+                        <p class="p2">{$Think.lang.yg_day_revenue}</p>
+                    </div>
+                    <div class="lf">
+                        <!-- <p class="p1">{$v.leiji_income}</p>-->
+                        <p class="p1">{$v.already_profit}</p>
+                        <p class="p2">{$v.order_type == 1?$Think.lang.yg_zong_income :$Think.lang.yg_leiji_income}</p>
+                    </div>
+                    <!--<div class="lf">
+                        <p class="p1">{$v.already_profit}</p>
+                        <p class="p2">{$Think.lang.yg_zong_income}</p>
+                    </div>-->
+                    <div class="lf">
+                        <p class="p1">{$v.dayNum}</p>
+                        <p class="p2">{:lang('sy_day')}</p>
+                    </div>
+                    <div class="lf">
+                        <p class="p1">{$v.sumprice}</p>
+                        <p class="p2">{$Think.lang.yg_buy_fee}</p>
+                    </div>
+                </div>
+                <div style="clear: both;"></div>
+                <div class="order_tr3">
+                    <div class="lf pic"><img src="{$v.imagepath}"></div>
+                    <div class="lf txt">
+                        <p class="p1">{$v.project}</p>
+                    </div>
+                    <div class="lr">
+                        <p class="p1 pt-1" >{$v.yxzq}/{:lang('sy_day')}</p>
+                        <!--<a class="obtn" onclick="fenhong(this,'{$v.id}','{$v.leiji_income}')" href="javascript:;">{$Think.lang.yg_lingqu}</a>-->
+
+                    </div>
+                </div>
+            </div>
+            {/volist}
+        {else/}
+            <div class="kbox">
+                <span>Üretimler satın alınmadı</span>
+            </div>
+        {/if}
+    </div>
+
+    {include file="public/foot"}
+
+<script type="text/javascript">
+    layui.use(['layer','form'], function(){
+        var layer = layui.layer;
+        var form = layui.form;
+    });
+
+    function fenhong(obj,id,shouyi) {
+        var __token__ = '{:token()}';
+        layer.confirm('Whether to receive income',{
+            title:'information',
+            btn: ['yes', 'no'],
+            yes:function(index){
+                $.ajax({
+                    url:"{:url('Robot/jiesuan')}",
+                    type:'post',
+                    data:{id:id,shouyi:shouyi,__token__:__token__},
+                    success:function(res){
+                        if(res.status){
+                            layer.msg(res.msg, {icon: 6},function () {
+                                location.reload();
+                            });
+                        }else{
+                            layer.msg(res.msg);
+                        }
+                    }
+                });
+            }
+        });
+    }
+
+</script>
+</body>
+</html>

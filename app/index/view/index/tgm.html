@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>{$Think.lang.fx_invite_code}</title>
+	{include file="public/header"}
+	{include file="public/kefu"}
+	<style type="text/css">
+		.fuzhi {
+			text-align: center;
+		}
+		
+		.fuzhi button {
+			width: 10rem;
+		}
+	</style>
+</head>
+<body>
+
+<div class="header">
+	<span>{$Think.lang.fx_invite_code}</span>
+</div>
+<div class="back">
+	<a href="javascript:history.go(-1);"><i class="layui-icon">&#xe603;</i></a>
+</div>
+
+<div style="clear: both;"></div>
+
+<div style="padding: 0.5rem 4% 6rem;box-sizing: border-box;width: 100%;text-align: center;">
+	<img id="sharedImg" src="{$erwei}" style="width:auto; max-width: 100%; height: auto; max-height: 100%;">
+	<p>{$Think.lang.fx_invite_code}：{$code}</p>
+	<p>{$Think.lang.te_direct_push_o_price}: {$direct_order}</p>
+</div>
+
+<div class="fuzhi">
+	<button class="layui-btn" id="copy" data-keyCode="111">{$Think.lang.fx_copy_key_code}</button>
+</div>
+<div class="fuzhi" style="margin-top: 20px">
+	<button class="layui-btn" id="fuzhi">{$Think.lang.fx_copy}</button>
+</div>
+<div class="fuzhi">
+	<a style="width: 160px;margin-top: 20px" class="layui-btn" href="{$erwei}" download="">{$Think.lang.save_qrcode}</a>
+</div>
+{include file="public/foot"}
+
+<script type="text/javascript">
+	layui.use(['layer', 'form'], function () {
+		var layer = layui.layer;
+		var form = layui.form;
+	});
+	
+	$('#fuzhi').on('click', function () {
+		copyUrl($(this));
+	});
+	
+	function copyUrl(obj) {
+		var url = '{$url}';
+		if ($('#urlText').length == 0) {
+			// 创建input
+			obj.after('<input id="urlText" style="position:fixed;top:-200%;left:-200%;" type="text" value=' + url + '>');
+		}
+		$('#urlText').select(); //选择对象
+		document.execCommand("Copy"); //执行浏览器复制命令
+		layer.msg("{$Think.lang.fx_copy_ok}");
+	}
+	
+	$('#copy').on('click', function () {
+		var keycode = "{$code}"
+		if ($('#keycode').length == 0) {
+			// 创建input
+			$(this).after('<input id="keycode" style="position:fixed;top:-200%;left:-200%;" type="text" value=' + keycode + '>');
+		}
+		$('#keycode').select(); //选择对象
+		document.execCommand("Copy"); //执行浏览器复制命令
+		layer.msg("{$Think.lang.fx_copy_ok}");
+	});
+
+</script>
+</body>
+</html>

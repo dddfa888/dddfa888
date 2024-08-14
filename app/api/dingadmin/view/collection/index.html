@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>提现审核</title>
+    {include file="public/header"}
+</head>
+<body style="padding: 10px 10px 80px 10px;">
+    <form class="layui-form" action="" method="post">
+    
+    <div class="">
+        <!-- <div>
+            <a href="javascript:;" class="layui-btn layui-btn-small" onclick="admin_add('添加收款','{:url('Collection/add')}',850,600)">添加收款</a>
+        </div> -->
+
+        <table class="layui-table" lay-size="sm">
+            <thead>
+                <tr pid="0">
+                    <th style="text-align: center;">序号</th>
+                    <th>收款类型</th>
+                    <th>银行卡号</th>
+                    <th>银行卡收款人</th>
+                    <th>银行名称(韩文)</th>
+                    <th>银行名称(英文)</th>
+                    <th>操作</th>
+                </tr> 
+            </thead>
+            <tbody>
+                {volist name="list" id="vo"}
+                <tr>
+                    <td style="text-align: center;">{$vo.id}</td>
+                    <td>
+                        {switch vo.type}
+                            {case 1}银行卡{/case}
+                            {case 2}支付宝{/case}
+                            {case 3}微信{/case}
+                        {/switch}
+                    </td>
+                    <td>{$vo.bank_num}</td>
+                    <td>{$vo.bank_username}</td>
+                    <td>{$vo.bank_info}</td>
+                    <td>{$vo.bank_info_en}</td>
+                    <td>
+                        <a href="javascript:;" class="layui-btn layui-btn-sm" onclick="admin_edit('编辑收款','{:url('Collection/edit',['id'=>$vo['id']])}',850,600)">编辑</a>
+                        <!-- <a href="javascript:;" class="layui-btn layui-btn-sm layui-btn-danger" onclick="admin_del(this,'{$vo['id']}')">删除</a> -->
+                    </td>
+                </tr>
+                {/volist}
+
+            </tbody>
+        </table>
+
+        
+    </div>
+    </form>
+    
+
+{include file="public/foot"}
+<script>
+//删除提示
+layui.use(['layer','form'], function(){
+    var layer = layui.layer;
+    var form = layui.form;
+});
+
+/*添加*/
+function admin_add(title,url,w,h) {
+    x_admin_show(title,url,w,h);
+}
+/*编辑*/
+function admin_edit(title,url,w,h) {
+    x_admin_show(title,url,w,h);
+}
+/*删除*/
+function admin_del(obj,id) {
+    layer.confirm('确认要删除吗？',function(index){
+        $.ajax({
+            url:"{:url('User/del')}",
+            type:'post',
+            data:'id='+id,
+            success:function(res){
+                if(res.status){
+                    $(obj).parents("tr").remove();
+                    layer.msg('已删除!',{icon:1,time:1000});
+                }else{
+                    layer.msg(res.msg ? res.msg : "操作失败!", {icon: 5},function () {
+                        var index = parent.layer.getFrameIndex(window.name);
+                        parent.layer.close(index);
+                    });
+                    return false;
+                }
+            }
+        });
+    });
+}
+//页面导航标题内容
+$(function(){
+    $(window.parent.document).find('#right_title').text($('title').text());
+})
+
+</script>
+</body>
+</html>

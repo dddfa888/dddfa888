@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Home</title>
+	{include file="public/header"}
+	{include file="public/kefu"}
+	
+	
+	<style type="text/css">
+	.Carousel{width: 22rem;height: 12rem;position: relative;overflow: hidden;border:1px solid #ccc;margin: 0 auto;border-radius: 0.5rem;}
+	.Carousel ul{width: 88rem;position: relative;}	
+	.Carousel ul li{float: left;width: 22rem;}	
+	.Carousel ul li img{width: 100%;height: 12rem;}	
+	.Carousel .btn{position: absolute;bottom: 0.5rem;font-size: 0.6rem;line-height: 1rem;text-align: center;right: 1rem;}
+	.Carousel .btn span{cursor: pointer;display: block;float: left;width: 1rem;height: 1rem;background-color: #ff5a28;margin-left: 0.1rem;color: #fff;}
+	.Carousel .btn .active{background-color: #b63e1a;}
+	</style>
+	
+</head>
+<body>
+	<div style="padding-top: 1rem;"></div>
+	<!-- 轮播图 -->
+	<div class="Carousel" >
+		<ul>
+			{volist name="gdlist" id="vo" lenght="4"}
+			<li><a href=""><img src=""></a></li>
+			{/volist}
+		</ul>
+		<div>
+			<span class="active">1</span>
+			{volist name="gdlist" id="vo" offset="1" key="k"}
+			<span>{$k+1}</span>
+			{/volist}
+		</div>
+	</div>
+	<div style="clear: both;"></div>
+
+	<!-- 产品内容 -->
+	<div class="layui-container">
+		<div class="probox" style="padding-top: 1rem;">
+			<div class="index_tr1">
+				<div class="lf pic"><img src="#"></div>
+				<div class="lf txt">产品名称</div>
+				<div class="lr zhouqi">周期</div>
+			</div>
+			<div style="clear: both;"></div>
+			<div class="index_tr2">
+				
+				<div class="lf">
+					<p class="p1">2.00</p>
+					<p class="p2">小时收益(元)</p>
+				</div>
+				<div class="lf">
+					<p class="p1">48</p>
+					<p class="p2">总收益(元)</p>
+				</div>
+				<div class="lf">
+					<p class="p1">2000</p>
+					<p class="p2">租凭费(元)</p>
+				</div>
+				<div class="lf">
+					<a class="gmbtn" href="">立即租凭</a>
+				</div>
+			</div>
+		</div>
+
+		<div class="probox" style="padding-top: 1rem;">
+			<div class="index_tr1">
+				<div class="lf pic"><img src="#"></div>
+				<div class="lf txt">产品名称</div>
+				<div class="lr zhouqi">周期</div>
+			</div>
+			<div style="clear: both;"></div>
+			<div class="index_tr2">
+				<div class="lf">
+					<p class="p1">2.00</p>
+					<p class="p2">小时收益(元)</p>
+				</div>
+				<div class="lf">
+					<p class="p1">48</p>
+					<p class="p2">总收益(元)</p>
+				</div>
+				<div class="lf">
+					<p class="p1">2000</p>
+					<p class="p2">租凭费(元)</p>
+				</div>
+				<div class="lf">
+					<a class="gmbtn" href="">立即租凭</a>
+				</div>
+			</div>
+		</div>
+
+	</div>
+
+	{include file="public/foot"}
+
+<script type="text/javascript">
+	layui.use(['layer','form'], function(){
+        var layer = layui.layer;
+        var form = layui.form;
+    });
+    $(function(){
+    	ul = $('.Carousel').find("ul");
+    	oneWidth = $('.Carousel').find("ul li").eq(0).width();
+    	var timer = null;
+    	var iNow = 0;
+    	$('.Carousel').on('click','span',function(){
+    		$(this).addClass('active').siblings().removeClass('active');
+    		var index = $(this).index();
+    		iNow = index;
+    		ul.animate({
+    			"left":-oneWidth*iNow,
+    		})
+    	});
+    	timer = setInterval(function(){
+    		iNow++;
+    		if (iNow>$('.btn span').length-1) {
+    			iNow = 0;
+    		}
+    		$('.btn span').eq(iNow).trigger('click');
+    	},2000);
+    })
+</script>
+</body>
+</html>

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    {include file="public/header"}
+    <style type="text/css">
+        .layui-form-item{text-align: center;}
+        .login_form{width: 100%;height: 10rem;margin-top: 4rem;float: left;}
+        .login_form p{color: #fff;margin-top: 5rem;font-size: 26px;font-weight: bold;text-align: center;}
+        .linnqu{width: 70%;height: 3rem;background: #fff;margin-top: 1rem;border-radius: 3rem;border:none;color: #ff5a28;font-size: 0.9rem;font-weight: bold;}
+    </style>
+</head>
+<body style="background-color: #3FDADC;">
+    <div class="layui-container">
+        <div class="login_logo" style="padding-bottom: 20px;">
+            <div class="imgbox"><img src="{$logo}"></div>
+        </div>
+        <div class="login_form">
+            <form action="{:url('/index/sem/regsems')}" method="post">
+                <input type="hidden" name="id" value="{$uid}">
+                <div>
+                    <p>{$Think.lang.zc_gift_amount}：{$hongbao}{$Think.lang.zc_unit} 
+                    <!-- ({$Think.lang.zc_withdrawable_cash}) -->
+                    </p>
+                </div>
+                <div style="padding-top: 40px;">
+                    <div class="layui-form-item">
+                        <button class="linnqu">{$Think.lang.zc_register_receive}</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+<script type="text/javascript">
+    layui.use(['layer','form'], function(){
+        var layer = layui.layer;
+        var form = layui.form;
+    });
+
+</script>
+</body>
+</html>

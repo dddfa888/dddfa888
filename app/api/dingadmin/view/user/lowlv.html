@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>团队</title>
+    {include file="public/header"}
+    <style>
+        .layui-col-md4 {
+            height: 100px;
+        }
+        
+        .d-flex {
+            display: flex;
+        }
+        
+        .flex-column{ flex-direction: column; }
+        
+        .a-center {
+            align-items: center;
+        }
+        
+        .j-center {
+            justify-content: center;
+        }
+        .mt-5{margin-top: 5px}
+        .ml-20{margin-left: 20px}
+        .font-16{
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body style="padding: 10px 10px 80px 10px;">
+    <form class="layui-form" action="" method="post">
+    
+    <div class="">
+        <div class="layui-tab">
+            <ul class="layui-tab-title">
+                <li class="layui-this">一级</li>
+                <li>二级</li>
+                <li>三级</li>
+            </ul>
+            <div class="layui-tab-content">
+                <div class="layui-tab-item layui-show">
+                    <table class="layui-table" lay-size="sm">
+                        <thead>
+                        <tr pid="0">
+                            <th style="text-align: center;">序号</th>
+                            <th>会员账号</th>
+                            <th>会员等级</th>
+                            <th>手机号码</th>
+                            <th>推荐人</th>
+                            <th>直推人数</th>
+                            <th>注册时间</th>
+                            <th>最后登陆时间</th>
+                            <th>状态</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {volist name="list1" id="vo" key="k"}
+                        <tr>
+                            <td style="text-align: center;">{$k}</td>
+                            <td>{$vo.username}</td>
+                            <td>{$vo.lv_name}</td>
+                            <td>{$vo.phone}</td>
+                            <td>{$vo.parent}</td>
+                            <td>{$vo.parentcount}</td>
+                            <td>{$vo.reg_time|date='Y-m-d'}</td>
+                            <td>{$vo.online_time|date='Y-m-d'}</td>
+                            <td>{if $vo.lock eq 1}正常{else/}禁止{/if}</td>
+                        </tr>
+                        {/volist}
+        
+                        </tbody>
+                    </table>
+                </div>
+                <div class="layui-tab-item">
+                    <table class="layui-table" lay-size="sm">
+                        <thead>
+                        <tr pid="0">
+                            <th style="text-align: center;">序号</th>
+                            <th>会员账号</th>
+                            <th>会员等级</th>
+                            <th>手机号码</th>
+                            <th>推荐人</th>
+                            <th>直推人数</th>
+                            <th>注册时间</th>
+                            <th>最后登陆时间</th>
+                            <th>状态</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {volist name="list2" id="vo" key="k"}
+                        <tr>
+                            <td style="text-align: center;">{$k}</td>
+                            <td>{$vo.username}</td>
+                            <td>{$vo.lv_name}</td>
+                            <td>{$vo.phone}</td>
+                            <td>{$vo.parent}</td>
+                            <td>{$vo.parentcount}</td>
+                            <td>{$vo.reg_time|date='Y-m-d'}</td>
+                            <td>{$vo.online_time|date='Y-m-d'}</td>
+                            <td>{if $vo.lock eq 1}正常{else/}禁止{/if}</td>
+                        </tr>
+                        {/volist}
+        
+                        </tbody>
+                    </table>
+                </div>
+                <div class="layui-tab-item">
+                    <table class="layui-table" lay-size="sm">
+                        <thead>
+                        <tr pid="0">
+                            <th style="text-align: center;">序号</th>
+                            <th>会员账号</th>
+                            <th>会员等级</th>
+                            <th>手机号码</th>
+                            <th>推荐人</th>
+                            <th>直推人数</th>
+                            <th>注册时间</th>
+                            <th>最后登陆时间</th>
+                            <th>状态</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {volist name="list3" id="vo" key="k"}
+                        <tr>
+                            <td style="text-align: center;">{$k}</td>
+                            <td>{$vo.username}</td>
+                            <td>{$vo.lv_name}</td>
+                            <td>{$vo.phone}</td>
+                            <td>{$vo.parent}</td>
+                            <td>{$vo.parentcount}</td>
+                            <td>{$vo.reg_time|date='Y-m-d'}</td>
+                            <td>{$vo.online_time|date='Y-m-d'}</td>
+                            <td>{if $vo.lock eq 1}正常{else/}禁止{/if}</td>
+                        </tr>
+                        {/volist}
+        
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        
+        
+        
+    </div>
+    </form>
+    
+
+{include file="public/foot"}
+<script>
+//删除提示
+layui.use(['layer','form','element'], function(){
+    var layer = layui.layer;
+    var form = layui.form;
+    var element = layui.element;
+});
+
+/*添加*/
+function admin_add(title,url,w,h) {
+    x_admin_show(title,url,w,h);
+}
+/*编辑*/
+function admin_edit(title,url,w,h) {
+    x_admin_show(title,url,w,h);
+}
+
+//页面导航标题内容
+$(function(){
+    $(window.parent.document).find('#right_title').text($('title').text());
+})
+
+</script>
+</body>
+</html>
